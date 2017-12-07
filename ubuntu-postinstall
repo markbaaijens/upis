@@ -231,17 +231,6 @@ then
   gsettings set com.canonical.Unity.Launcher favorites "['firefox.desktop', 'nautilus-home.desktop', 'libreoffice-writer.desktop', 'ubuntu-software-center.desktop', 'gitso.desktop', 'yelp.desktop']"
 fi
 
-#TODO Lubuntu
-# - werkbladen: op 1 instellen (anders probleem bij horizontaal scrollen)
-#  - werkt niet met 14.04 -> alternatief
-#  - verwijderen uit taakbalk
-# - internet-icoon (Firefox) als eerste
-#   - via Werkbalkvoorkeuren, tab Werkbalkprogrammatjes, Balk voor starten toepassingen, knop Bewerken
-# - toevoegen adblocker aan Firefox
-# - toevoegen aan Bureaublad:
-#   - Firefox
-#   - LibreOffice Writer
-
 #
 # Wallpaper devrijepc.nl (branding)
 #
