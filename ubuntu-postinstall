@@ -59,12 +59,6 @@ then
   exit 1      
 fi
 
-echo "# Install proxy-client"
-sudo apt-get install squid-deb-proxy-client -y
-
-echo "# Start avahi (auto networking discovery) for proxy-client to start without a reboot"
-sudo /etc/init.d/avahi-daemon restart
-
 #
 # Packages 
 #
