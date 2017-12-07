@@ -26,19 +26,8 @@
 #  - script is repeatable e.g. can be executed multiple times
 #
 #  Changelog:
-#  - 2015-08-30 
+#  - 2017-12-07
 #    - Initial version
-#  - 2015-09-01 
-#    - Universally usable for ubuntu & lubuntu
-#    - Removed check for 'user' (script is now user independent)
-#    - Always install memory-packages (not only lubuntu, but also on ubuntu)
-#    - Echo all commands 
-#    - Remove xterm on ubuntu (also)
-#    - (bug) ubuntu: check on /etc/lightm/lightdm.conf, file doe not exist (anymore) 
-#  - 2015-09-06
-#    - (bug) Line if ([ $(grep -c 'vm.swappiness=10' /etc/crontab) -eq 0 ]) => /etc/sysctl.conf
-#    - Removed link http://packages.ubuntu.com/precise/ubuntu-restricted-extras
-#    - Added '#' on each echo - improves visibility
 #
 
 echo "# Check if running as root"
