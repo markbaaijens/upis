@@ -8,6 +8,6 @@ Script for post-install operations after a clean Ubuntu-installation. This scrip
 - script should NOT be run as root 
 
 ## Usage
-wget https://raw.githubusercontent.com/markbaaijens/upis/master/ubuntu-postinstall
-chmod +x ubuntu-postinstall
-./ubuntu-postinstall
+wget https://raw.githubusercontent.com/markbaaijens/upis/master/upis
+chmod +x upis
+./upis
