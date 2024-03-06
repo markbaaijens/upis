@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-#  Post-install script for (L)Ubuntu
+#  Post-install script for Ubuntu
 #
-#  Copyright (C) 2015 Mark Baaijens <mark.baaijens@gmail.com>
+#  Copyright (C) 2024 Mark Baaijens <mark.baaijens@gmail.com>
 #
 #  This is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -18,33 +18,20 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-#
-#  Remarks:
-#  - based on a clean installation of Ubuntu 14.04; other version may work (not tested)
-#  - user with 'user' must be present
-#  - script should be executed as root 
-#  - script is repeatable e.g. can be executed multiple times
-#
-#  Changelog:
-#  - 2017-12-07
-#    - Initial version
-#
-
-echo "# Check if running as root"
+# Script must NOT be executed as root b/c otherwise some user settings end up in the root domain
 if [ -n "$(whoami | grep root)" ]
 then
-  echo "# Running as root. Exiting"
+  echo "Running as root. Exiting"
   exit 1    
 fi
 
-echo "# Check which desktop is used"
 desktop=$(echo $DESKTOP_SESSION | tr '[:upper:]' '[:lower:]')
-echo "# Desktop in use: $desktop"
+echo "Desktop in use: $desktop"
 
-# Exit when no supported desktop has been found
-if [ "$desktop" != "ubuntu" ] && [ "$desktop" != "lubuntu" ]
+# Check for supported desktop(s)
+if [ "$desktop" != "ubuntu" ]
 then
-  echo "# No supported desktop found (ubuntu or lubuntu). Exiting"
+  echo "No supported desktop found. Exiting"
   exit 1      
 fi
 
@@ -52,83 +39,17 @@ fi
 # Packages 
 #
 
-echo "# Upgrade everything"
-sudo apt-get update
-sudo apt-get dist-upgrade -y
+echo "Install extra packages"
+sudo apt-get install dconf-editor
 
-echo "# Install (l)ubuntu-restricted-extras"
 #
-# Unfortunately, MS forces us to accept a license agreement, but this blocks an unattended 
-# script installation. The strategy: (1) deploy mechanism for bypassing the license dialog
-# (2) install the package as usual, the license dialog will be hidden.
-# See: http://askubuntu.com/questions/16225/how-can-i-accept-the-agreement-in-a-terminal-like-for-ttf-mscorefonts-installer
+# System settings
 #
-sudo /bin/sh -c 'echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections'
-if [ "$desktop" = "ubuntu" ]
-then 
-  sudo apt-get install ubuntu-restricted-extras -y
-else 
-  if [ "$desktop" = "lubuntu" ]
-  then 
-    sudo apt-get install lubuntu-restricted-extras -y
-  fi
-fi  
 
-echo "# Delete obsolete pakages"
-sudo apt-get remove xterm -y
-if [ "$desktop" = "ubuntu" ]
-then 
-  sudo apt-get remove shotwell -y
-  sudo apt-get remove empathy -y  
-else  
-  if [ "$desktop" = "lubuntu" ]
-  then 
+echo "De-activate error-system"
+sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 
-    sudo apt-get remove synaptic -y
-    sudo apt-get remove abiword -y   # Remove also meta-package lubuntu-desktop; no harm done
-    sudo apt-get remove gnumeric -y  # Remove also meta-package lubuntu-desktop; no harm done
-    sudo apt-get remove mtpaint -y
-  fi  
-fi  
-
-echo "# Install extra packages"
-sudo apt-get install vim -y
-sudo apt-get install gnome-paint -y
-sudo apt-get install hplip -y  # Is installed by default in Ubuntu
-sudo apt-get install gitso -y  # Provides remote control
-sudo apt-get install pidgin -y # Is installed by default in Lubuntu
-sudo apt-get install gthumb -y 
-
-# Provide access to the latest (stable) GIMP version (2.8); do NOT install
-#add-apt-repository ppa:otto-kesselgulasch/gimp -y
-
-# Provide access to the latest (stable) Openshot version; do NOT install
-#add-apt-repository ppa:openshot.developers/ppa -y
-
-if [ "$desktop" = "ubuntu" ]
-then
-  echo "# Remove non-functional lenses"
-  sudo apt-get remove unity-lens-shopping -y
-  sudo apt-get remove unity-lens-video -y
-  sudo apt-get remove unity-lens-music -y
-  sudo apt-get remove unity-scope-musicstores -y
-fi
-
-echo "# Add partner repo (skype)"
-# Skype is *not* installed; to install skype: sudo apt-get install skype
-sudo sed -i "/^# deb .*partner/ s/^# //" /etc/apt/sources.list
-
-echo "# Provide access to the latest (stable) Libreoffice version; do the actual upgrade"
-sudo add-apt-repository ppa:libreoffice/ppa -y
-sudo apt-get update
-if [ "$desktop" = "lubuntu" ]
-then
-  sudo apt-get install libreoffice -y   
-else
-  sudo apt-get dist-upgrade -y # Under non-lubuntu varients, lo is installed by default
-fi
-
-echo "# Lower swappiness & use zram (advantage when in low memory)"
+echo "Lower swappiness & use zram (advantage when in low memory)"
 if ([ $(grep -c 'vm.swappiness=10' /etc/sysctl.conf) -eq 0 ]) 
 then
   sudo /bin/sh -c 'echo "vm.swappiness=10" >> /etc/sysctl.conf'
@@ -136,126 +57,64 @@ fi
 sudo apt-get install zram-config
 
 #
-# System settings
-#
-
-echo "# Play encrypted DVD's"
-sudo /usr/share/doc/libdvdread4/install-css.sh
-
-echo "# Provide automatic updates"
-if ([ $(grep -c 'apt-get dist-upgrade' /etc/crontab) -eq 0 ]) 
-then
-  # Option -qq means extra quiet + assume-yes
-  sudo /bin/sh -c 'echo "59 *    * * *   root    apt-get dist-upgrade -qq && apt-get autoremove -qq && apt-get autoclean -qq && apt-get install $(check-language-support -l nl) -qq && apt-get install $(check-language-support -l uk) -qq 1>> /var/log/cron-update.log" >> /etc/crontab'
-fi
-
-# Disable guest account
-if [ "$desktop" = "ubuntu" ]
-then 
-  echo "# Disable guest account"
-  if [ ! -e "/etc/lightdm/lightdm.conf" ]  # First, check if the file exists
-  then
-    sudo /bin/sh -c 'echo "[SeatDefaults]" >> /etc/lightdm/lightdm.conf'  # Create the file
-  fi
-  if ([ $(grep -c 'allow-guest=false' /etc/lightdm/lightdm.conf) -eq 0 ]) 
-  then
-    sudo /bin/sh -c 'echo "allow-guest=false" >> /etc/lightdm/lightdm.conf'  # Modify the file
-  fi
-fi
-
-echo "# De-activate error-system"
-sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
-
-echo "# Notification for Release Upgrades: never"
-sudo sed -i 's/Prompt=.*/Prompt=never/g' /etc/update-manager/release-upgrades
-
-#
 # Personal settings
 #
 
-if [ "$desktop" = "ubuntu" ]
-then
+# Provide template for text-file through context-menu Nautilus
+touch ~/Sjablonen/Tekstdocument.txt
 
-  echo "# Settings: block popup update-manager"
-  gsettings set com.ubuntu.update-notifier no-show-notifications true
+# Interface
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+gsettings set org.gnome.desktop.interface show-battery-percentage true
 
-  echo "# Settings: configuring time-applet"
-  gsettings set com.canonical.indicator.datetime show-date true
-  gsettings set com.canonical.indicator.datetime show-day true
-  gsettings set com.canonical.indicator.datetime show-week-numbers true
+# Date
+gsettings set org.gnome.desktop.interface clock-show-weekday true
+gsettings set org.gnome.desktop.calendar show-weekdate true
 
-  echo "# Settings: power settings, on battery, suspend active: 10 min"
-  gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 600
+# Dock
+gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize-or-previews' # Alternative: 'minimize'
+gsettings set org.gnome.shell.extensions.dash-to-dock autohide-in-fullscreen true
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false
+gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
+gsettings set  org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
+#gsettings set  gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 36
+gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false
+gsettings set org.gnome.shell.extensions.dash-to-dock show-trash true
 
-  echo "# Settings: power settings, if power is critical low: shutdown"
-  gsettings set org.gnome.settings-daemon.plugins.power critical-battery-action shutdown
+# Favourites
+# TODO: skip if default is found to prevent overwriting user settings
+#gsettings set org.gnome.shell favorite-apps "['firefox_firefox.desktop', 'org.gnome.Nautilus.desktop']"
 
-  echo "# Settings: power settings, do not dim display due to inactivity"
-  gsettings set org.gnome.settings-daemon.plugins.power idle-dim false
+# Workspaces
+gsettings set org.gnome.mutter dynamic-workspaces false
+gsettings set org.gnome.desktop.wm.preferences num-workspaces 1
 
-  echo "# Settings: no lock after wake-up"
-  gsettings set org.gnome.desktop.lockdown disable-lock-screen true
+# Nightmode
+gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
+gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3282
 
-  echo "# Settings: launcher: minimize icon size (no gsettings (dconf) available)"
-  dconf write /org/compiz/profiles/unity/plugins/unityshell/icon-size 40
+# Mouse and Touchpad 
+gsettings set org.gnome.desktop.peripherals.touchpad speed 0.3 # Accelerate a bit
 
-  echo "# Settings: provide better privacy"
-  gsettings set com.canonical.Unity.Lenses remote-content-search none
-  gsettings set com.canonical.Unity.Lenses disabled-scopes \
-        "['more_suggestions-amazon.scope', 'more_suggestions-u1ms.scope',
-        'more_suggestions-populartracks.scope', 'music-musicstore.scope',
-        'more_suggestions-ebay.scope', 'more_suggestions-ubuntushop.scope',
-        'more_suggestions-skimlinks.scope']"
-
-  echo "# Settings: use recursive search in Nautilus"
-  gsettings set org.gnome.nautilus.preferences enable-interactive-search false
-
-  echo "# Settings: favorites in launcher"
-  gsettings set com.canonical.Unity.Launcher favorites "['firefox.desktop', 'nautilus-home.desktop', 'libreoffice-writer.desktop', 'ubuntu-software-center.desktop', 'gitso.desktop', 'yelp.desktop']"
-fi
-
-#
-# Wallpaper devrijepc.nl (branding)
-#
-cd ~
-wget http://devrijepc.nl/install/ubuntu-wallpaper-branded.png -O ubuntu-wallpaper-branded.png
-
-echo "# Wallpaper devrijepc.nl (branding)"
-if [ "$desktop" = "ubuntu" ]
-then
-  if [ -e "/usr/share/backgrounds/warty-final-ubuntu.png.org" ] 
-  then
-    sudo mv /usr/share/backgrounds/warty-final-ubuntu.png /usr/share/backgrounds/warty-final-ubuntu.png.org 
-  fi
-  sudo cp ~/ubuntu-wallpaper-branded.png /usr/share/backgrounds/warty-final-ubuntu.png
-else
-  if [ "$desktop" = "lubuntu" ]
-  then
-    if [ -e "/usr/share/lubuntu/wallpapers/1404-lubuntu-default-wallpaper.png.org" ] 
-    then
-      sudo mv /usr/share/lubuntu/wallpapers/1404-lubuntu-default-wallpaper.png /usr/share/lubuntu/wallpapers/1404-lubuntu-default-wallpaper.png.org 
-    fi
-    sudo cp ~/ubuntu-wallpaper-branded.png /usr/share/lubuntu/wallpapers/1404-lubuntu-default-wallpaper.png
-  fi
-fi  
-
-sudo rm ~/ubuntu-wallpaper-branded.png
+# Nautilus
+gsettings set org.gnome.nautilus.preferences open-folder-on-dnd-hover true
+gsettings set org.gnome.nautilus.preferences recursive-search 'never'
+gsettings set org.gnome.nautilus.preferences show-delete-permanently true
+gsettings set org.gnome.nautilus.preferences show-directory-item-counts 'always'
+gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
 
 #
 # Finishing up
 #
 
-echo "# Check for incomplete language support"
-# this happens when the installation is done without internet acces
+echo "Check for incomplete language support"
 sudo apt-get install $(check-language-support -l nl) -y
 sudo apt-get install $(check-language-support -l uk) -y
 
-echo "# Clean-up"
+echo "Clean-up"
 sudo apt-get autoremove -y
 sudo apt-get autoclean -y
 
-echo "# "
-echo "# Script is finished. Please reboot."
-echo "# "
-
+echo ""
+echo "Script is finished. Please reboot."
 
