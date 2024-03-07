@@ -1,0 +1,120 @@
+#!/bin/sh
+#
+#  Post-install script for Ubuntu
+#
+#  Copyright (C) 2024 Mark Baaijens <mark.baaijens@gmail.com>
+#
+#  This is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# Script must NOT be executed as root b/c otherwise some user settings end up in the root domain
+if [ -n "$(whoami | grep root)" ]
+then
+  echo "Running as root. Exiting"
+  exit 1    
+fi
+
+desktop=$(echo $DESKTOP_SESSION | tr '[:upper:]' '[:lower:]')
+echo "Desktop in use: $desktop"
+
+# Check for supported desktop(s)
+if [ "$desktop" != "ubuntu" ]
+then
+  echo "No supported desktop found. Exiting"
+  exit 1      
+fi
+
+#
+# Packages 
+#
+
+echo "Install extra packages"
+sudo apt-get install dconf-editor
+
+#
+# System settings
+#
+
+echo "De-activate error-system"
+sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
+
+echo "Lower swappiness & use zram (advantage when in low memory)"
+if ([ $(grep -c 'vm.swappiness=10' /etc/sysctl.conf) -eq 0 ]) 
+then
+  sudo /bin/sh -c 'echo "vm.swappiness=10" >> /etc/sysctl.conf'
+fi
+sudo apt-get install zram-config
+
+#
+# Personal settings
+#
+
+# Provide template for text-file through context-menu Nautilus
+touch ~/Sjablonen/Tekstdocument.txt
+
+# Interface
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+gsettings set org.gnome.desktop.interface show-battery-percentage true
+
+# Date
+gsettings set org.gnome.desktop.interface clock-show-weekday true
+gsettings set org.gnome.desktop.calendar show-weekdate true
+
+# Dock
+gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize-or-previews' # Alternative: 'minimize'
+gsettings set org.gnome.shell.extensions.dash-to-dock autohide-in-fullscreen true
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false
+gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
+gsettings set  org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
+#gsettings set  gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 36
+gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false
+gsettings set org.gnome.shell.extensions.dash-to-dock show-trash true
+
+# Favourites
+# TODO: skip if default is found to prevent overwriting user settings
+#gsettings set org.gnome.shell favorite-apps "['firefox_firefox.desktop', 'org.gnome.Nautilus.desktop']"
+
+# Workspaces
+gsettings set org.gnome.mutter dynamic-workspaces false
+gsettings set org.gnome.desktop.wm.preferences num-workspaces 1
+
+# Nightmode
+gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
+gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3282
+
+# Mouse and Touchpad 
+gsettings set org.gnome.desktop.peripherals.touchpad speed 0.3 # Accelerate a bit
+
+# Nautilus
+gsettings set org.gnome.nautilus.preferences open-folder-on-dnd-hover true
+gsettings set org.gnome.nautilus.preferences recursive-search 'never'
+gsettings set org.gnome.nautilus.preferences show-delete-permanently true
+gsettings set org.gnome.nautilus.preferences show-directory-item-counts 'always'
+gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
+
+#
+# Finishing up
+#
+
+echo "Check for incomplete language support"
+sudo apt-get install $(check-language-support -l nl) -y
+sudo apt-get install $(check-language-support -l uk) -y
+
+echo "Clean-up"
+sudo apt-get autoremove -y
+sudo apt-get autoclean -y
+
+echo ""
+echo "Script is finished. Please reboot."
+
