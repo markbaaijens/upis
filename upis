@@ -25,10 +25,8 @@ then
   exit 1    
 fi
 
-desktop=$(echo $DESKTOP_SESSION | tr '[:upper:]' '[:lower:]')
-echo "Desktop in use: $desktop"
-
 # Check for supported desktop(s)
+desktop=$(echo $DESKTOP_SESSION | tr '[:upper:]' '[:lower:]')
 if [ "$desktop" != "ubuntu" ]
 then
   echo "No supported desktop found. Exiting"
@@ -39,22 +37,23 @@ fi
 # Packages 
 #
 
-echo "Install extra packages"
-sudo apt-get install dconf-editor
+# Install extra packages
+sudo apt-get update -y
+sudo apt-get install dconf-editor -y
 
 #
 # System settings
 #
 
-echo "De-activate error-system"
+# De-activate error-system
 sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 
-echo "Lower swappiness & use zram (advantage when in low memory)"
+# Lower swappiness & use zram (advantage when in low memory)
 if ([ $(grep -c 'vm.swappiness=10' /etc/sysctl.conf) -eq 0 ]) 
 then
   sudo /bin/sh -c 'echo "vm.swappiness=10" >> /etc/sysctl.conf'
 fi
-sudo apt-get install zram-config
+sudo apt-get install zram-config -y
 
 #
 # Personal settings
@@ -107,11 +106,11 @@ gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
 # Finishing up
 #
 
-echo "Check for incomplete language support"
+# Check for (in-)complete language support
 sudo apt-get install $(check-language-support -l nl) -y
 sudo apt-get install $(check-language-support -l uk) -y
 
-echo "Clean-up"
+# Clean-up
 sudo apt-get autoremove -y
 sudo apt-get autoclean -y
 
