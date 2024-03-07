@@ -39,6 +39,7 @@ fi
 echo "Install extra packages"
 sudo apt-get update -qq  # Do update first otherwise subsequent installs will not work on a fresh system
 sudo apt-get install dconf-editor -qq
+sudo apt-get install pinta -qq
 
 #
 # System settings
