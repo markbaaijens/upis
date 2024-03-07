@@ -66,7 +66,11 @@ fi
 echo "Personal settings"
 
 # Provide template for text-file through context-menu Nautilus
-touch ~/Sjablonen/Tekstdocument.txt
+if [ -d ~/Sjablonen ]; then
+    touch ~/Sjablonen/Tekstdocument.txt
+else
+    echo "Folder ~/Sjablonen is not present, installation language is not Dutch?"    
+fi
 
 # Interface
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
