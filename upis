@@ -48,12 +48,16 @@ echo "System settings"
 # De-activate error-system
 sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 
-# Lower swappiness & use zram (advantage when in low memory)
-if ([ $(grep -c 'vm.swappiness=10' /etc/sysctl.conf) -eq 0 ]) 
-then
-  sudo /bin/sh -c 'echo "vm.swappiness=10" >> /etc/sysctl.conf'
-fi
+# Use zram = compressed memory (advantage when in low memory)
 sudo apt-get install zram-config -qq
+sudo systemctl enable zram-config
+sudo systemctl start zram-config
+
+# Increase swappiness to make better use of zram
+if ([ $(grep -c 'vm.swappiness=150' /etc/sysctl.conf) -eq 0 ]) 
+then
+  sudo /bin/sh -c 'echo "vm.swappiness=150" >> /etc/sysctl.conf'
+fi
 
 #
 # Personal settings
