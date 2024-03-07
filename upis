@@ -119,6 +119,21 @@ if [ -z "$(snap list | grep telegram-desktop)" ]; then
     fi
 fi
 
+# Install audio-suite
+read -r -p "Install audio-suite? [y/N] " install_audio
+if [ "$install_audio" = "y" ] || [ "$install_audio" = "Y" ]; then
+    sudo apt-get install puddletag -qq
+		sudo apt-get install sound-juicer -qq
+		# TODO: removable media => link audio-cd to sound-juicer
+		sudo apt-get install audacity -qq
+		sudo apt-get install quodlibet -qq
+		sudo apt-get install sonic-visualiser -qq
+
+    if [ -z "$(snap list | grep spek)" ]; then
+        sudo snap install spek
+    fi
+fi
+
 #
 # Finishing up
 #
