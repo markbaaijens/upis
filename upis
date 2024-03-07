@@ -55,10 +55,8 @@ sudo systemctl enable zram-config
 sudo systemctl start zram-config
 
 # Increase swappiness to make better use of zram
-if ([ $(grep -c 'vm.swappiness=150' /etc/sysctl.conf) -eq 0 ]) 
-then
-  sudo /bin/sh -c 'echo "vm.swappiness=150" >> /etc/sysctl.conf'
-fi
+sudo sed -i '/vm.swappiness=/d' /etc/sysctl.conf  # Remove the line first if present
+sudo /bin/sh -c 'echo "vm.swappiness=150" >> /etc/sysctl.conf'
 
 #
 # Personal settings
@@ -85,14 +83,18 @@ gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize-or-
 gsettings set org.gnome.shell.extensions.dash-to-dock autohide-in-fullscreen true
 gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false
 gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
-gsettings set  org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
-#gsettings set  gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 36
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
 gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false
 gsettings set org.gnome.shell.extensions.dash-to-dock show-trash true
 
-# Favourites
-# TODO: skip if default is found to prevent overwriting user settings
-#gsettings set org.gnome.shell favorite-apps "['firefox_firefox.desktop', 'org.gnome.Nautilus.desktop']"
+# Favourites, only replace when these are set to default
+#if [ "$(gsettings get org.gnome.shell favorite-apps)" == "" ]; then
+#    gsettings set org.gnome.shell favorite-apps "['firefox_firefox.desktop', 'org.gnome.Nautilus.desktop']"
+#fi
+
+# Custom ['firefox_firefox.desktop', 'telegram-desktop_telegram-desktop.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'google-chrome.desktop', 'code.desktop', 'zim.desktop', 'io.github.quodlibet.QuodLibet.desktop', 'org.qbittorrent.qBittorrent.desktop', 'lms.desktop']
+# Default ['ubuntu-desktop-installer_ubuntu-desktop-installer.desktop', 'ubiquity.desktop', 'firefox_firefox.desktop', 'thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'rhythmbox.desktop', 'libreoffice-writer.desktop', 'snap-store_ubuntu-software.desktop', 'yelp.desktop']
+# Verkorte default ['firefox_firefox.desktop', 'thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'rhythmbox.desktop', 'libreoffice-writer.desktop', 'snap-store_ubuntu-software.desktop', 'yelp.desktop']
 
 # Workspaces
 gsettings set org.gnome.mutter dynamic-workspaces false
