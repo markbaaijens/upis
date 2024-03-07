@@ -117,6 +117,18 @@ if [ -z "$(snap list | grep telegram-desktop)" ]; then
     if [ "$install_telegram" = "y" ] || [ "$install_telegram" = "Y" ]; then
         sudo snap install telegram-desktop
     fi
+else
+    echo "Telegram already installed"
+fi
+
+# Install Visual Studio Code/snap
+if [ -z "$(snap list | grep code)" ]; then
+    read -r -p "Install Visual Studio Code? [y/N] " install_code
+    if [ "$install_code" = "y" ] || [ "$install_code" = "Y" ]; then
+        sudo snap install --classic code
+    fi
+else
+    echo "Visual Studio Code already installed"
 fi
 
 # Install audio-suite
