@@ -88,13 +88,9 @@ gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false
 gsettings set org.gnome.shell.extensions.dash-to-dock show-trash true
 
 # Favourites, only replace when these are set to default
-#if [ "$(gsettings get org.gnome.shell favorite-apps)" == "" ]; then
-#    gsettings set org.gnome.shell favorite-apps "['firefox_firefox.desktop', 'org.gnome.Nautilus.desktop']"
-#fi
-
-# Custom ['firefox_firefox.desktop', 'telegram-desktop_telegram-desktop.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'google-chrome.desktop', 'code.desktop', 'zim.desktop', 'io.github.quodlibet.QuodLibet.desktop', 'org.qbittorrent.qBittorrent.desktop', 'lms.desktop']
-# Default ['ubuntu-desktop-installer_ubuntu-desktop-installer.desktop', 'ubiquity.desktop', 'firefox_firefox.desktop', 'thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'rhythmbox.desktop', 'libreoffice-writer.desktop', 'snap-store_ubuntu-software.desktop', 'yelp.desktop']
-# Verkorte default ['firefox_firefox.desktop', 'thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'rhythmbox.desktop', 'libreoffice-writer.desktop', 'snap-store_ubuntu-software.desktop', 'yelp.desktop']
+if [ "$(gsettings get org.gnome.shell favorite-apps)" = "['firefox_firefox.desktop', 'thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'rhythmbox.desktop', 'libreoffice-writer.desktop', 'snap-store_ubuntu-software.desktop', 'yelp.desktop']" ]; then
+    gsettings set org.gnome.shell favorite-apps "['firefox_firefox.desktop', 'org.gnome.Nautilus.desktop']"
+fi
 
 # Workspaces
 gsettings set org.gnome.mutter dynamic-workspaces false
