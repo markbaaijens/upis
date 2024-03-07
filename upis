@@ -37,7 +37,7 @@ fi
 # Packages 
 #
 echo "Install extra packages"
-sudo apt-get update -qq  # Do update first otherwise subsequent installs will not work on a fresh system
+sudo apt-get update -qq  # Update first otherwise subsequent installs will not work on a fresh system
 sudo apt-get install dconf-editor -qq
 sudo apt-get install pinta -qq
 
@@ -73,6 +73,7 @@ fi
 # Interface
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 gsettings set org.gnome.desktop.interface show-battery-percentage true
+gsettings set org.gnome.desktop.interface monospace-font-name 'Ubuntu Mono 11'
 
 # Date
 gsettings set org.gnome.desktop.interface clock-show-weekday true
@@ -109,6 +110,14 @@ gsettings set org.gnome.nautilus.preferences recursive-search 'never'
 gsettings set org.gnome.nautilus.preferences show-delete-permanently true
 gsettings set org.gnome.nautilus.preferences show-directory-item-counts 'always'
 gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
+
+# Install Telegram/snap
+if [ -z "$(snap list | grep telegram-desktop)" ]; then
+    read -r -p "Install Telegram? [y/N] " install_telegram
+    if [ "$install_telegram" = "y" ] || [ "$install_telegram" = "Y" ]; then
+        sudo snap install telegram-desktop
+    fi
+fi
 
 #
 # Finishing up
