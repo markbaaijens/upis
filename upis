@@ -36,14 +36,14 @@ fi
 #
 # Packages 
 #
-
-# Install extra packages
-sudo apt-get update -y
-sudo apt-get install dconf-editor -y
+echo "Install extra packages"
+sudo apt-get update -qq  # Do update first otherwise subsequent installs will not work on a fresh system
+sudo apt-get install dconf-editor -qq
 
 #
 # System settings
 #
+echo "System settings"
 
 # De-activate error-system
 sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
@@ -53,11 +53,12 @@ if ([ $(grep -c 'vm.swappiness=10' /etc/sysctl.conf) -eq 0 ])
 then
   sudo /bin/sh -c 'echo "vm.swappiness=10" >> /etc/sysctl.conf'
 fi
-sudo apt-get install zram-config -y
+sudo apt-get install zram-config -qq
 
 #
 # Personal settings
 #
+echo "Personal settings"
 
 # Provide template for text-file through context-menu Nautilus
 touch ~/Sjablonen/Tekstdocument.txt
@@ -105,15 +106,12 @@ gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
 #
 # Finishing up
 #
+echo "Complete language support"
+sudo apt-get install $(check-language-support -l nl) -qq
+sudo apt-get install $(check-language-support -l uk) -qq
 
-# Check for (in-)complete language support
-sudo apt-get install $(check-language-support -l nl) -y
-sudo apt-get install $(check-language-support -l uk) -y
+echo "Clean-up packages"
+sudo apt-get autoremove -qq
+sudo apt-get autoclean -qq
 
-# Clean-up
-sudo apt-get autoremove -y
-sudo apt-get autoclean -y
-
-echo ""
-echo "Script is finished. Please reboot."
 

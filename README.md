@@ -8,9 +8,10 @@ Script for post-install operations after a clean Ubuntu-installation. This scrip
 
 
 ## Usage
+`# Download script`  
 `wget https://raw.githubusercontent.com/markbaaijens/upis/master/upis`  
-`chmod +x upis`  
+`chmod +x upis  # ...and make it executable`  
 
-> Check the contents of the script, discard what is not needed or wanted, then save the file.
+`# Check the contents of the script, discard what is not needed or wanted, then save the file`
 
-`./upis`
+`./upis #Execute the script.` 
