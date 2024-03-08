@@ -147,6 +147,10 @@ if [ "$install_audio" = "y" ] || [ "$install_audio" = "Y" ]; then
     sudo apt-get install quodlibet -qq
     sudo apt-get install sonic-visualiser -qq
 
+    # Snap from flacon-tabetai does not start
+    sudo add-apt-repository ppa:flacon -y
+    sudo apt install flacon -qq
+
     if [ -z "$(snap list | grep spek)" ]; then
         sudo snap install spek
     fi
