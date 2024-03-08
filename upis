@@ -42,17 +42,15 @@ echo "System settings"
 # De-activate error-system
 sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 
-'''
 # Commented out b/c zram-config is not working correctly on arm64
 # Use zram = compressed memory (advantage when in low memory)
-sudo apt-get install zram-config -qq
-sudo systemctl enable zram-config
-sudo systemctl start zram-config
+#sudo apt-get install zram-config -qq
+#sudo systemctl enable zram-config
+#sudo systemctl start zram-config
 
 # Increase swappiness to make better use of zram
-sudo sed -i '/vm.swappiness=/d' /etc/sysctl.conf  # Remove the line first if present
-sudo /bin/sh -c 'echo "vm.swappiness=150" >> /etc/sysctl.conf'
-'''
+#sudo sed -i '/vm.swappiness=/d' /etc/sysctl.conf  # Remove the line first if present
+#sudo /bin/sh -c 'echo "vm.swappiness=150" >> /etc/sysctl.conf'
 
 #
 # Personal settings
