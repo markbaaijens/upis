@@ -57,7 +57,7 @@ echo "Personal settings"
 
 # Provide template for text-file through context-menu Nautilus
 if [ -d ~/Sjablonen ]; then
-    touch ~/Sjablonen/Tekstdocument.txt
+    touch ~/Sjablonen/Tekst-document.txt
 else
     echo "Folder ~/Sjablonen is not present, installation language is not Dutch?"    
 fi
@@ -138,7 +138,7 @@ else
 fi
 
 # Install audio-suite
-read -r -p "Install audio-suite? [y/N] " install_audio
+read -r -p "Install audio-suite (PuddleTag, SoundJuicer, Audacity, QuodLibet, SoundVisualiser, Flacon and Spek)? [y/N] " install_audio
 if [ "$install_audio" = "y" ] || [ "$install_audio" = "Y" ]; then
     sudo apt-get install puddletag -qq
     sudo apt-get install sound-juicer -qq
@@ -154,6 +154,17 @@ if [ "$install_audio" = "y" ] || [ "$install_audio" = "Y" ]; then
     if [ -z "$(snap list | grep spek)" ]; then
         sudo snap install spek
     fi
+fi
+
+# Install SyncThing
+read -r -p "Install SyncThing? [y/N] " install_sync
+if [ "$install_sync" = "y" ] || [ "$install_sync" = "Y" ]; then
+    sudo apt install curl apt-transport-https
+    sudo mkdir -p /etc/apt/keyrings
+    sudo curl -L -o /etc/apt/keyrings/syncthing-archive-keyring.gpg https://syncthing.net/release-key.gpg
+    echo "deb https://apt.syncthing.net/ syncthing stable" | sudo tee /etc/apt/sources.list.d/syncthing.list
+    sudo apt update
+    sudo apt install syncthing
 fi
 
 #
