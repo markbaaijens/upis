@@ -58,7 +58,6 @@ read -r -p "Upgrade packages (this may take a while)? [y/N] " install_upgrade
 #
 echo "System settings"
 
-
 # De-activate error-system
 sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 
@@ -131,7 +130,7 @@ gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
 echo "Install extra packages"
 sudo apt-get update -qq  # Update first otherwise subsequent installs will not work on a fresh system
 
-sudo apt-get install dconf-editor -qq
+sudo apt-get install dconf-editor htop tree bwm-ng nmap -qq
 
 if [ -z "$(snap list | grep pinta)" ]; then
     sudo snap install pinta
