@@ -39,17 +39,18 @@ fi
 if [ -z "$(snap list | grep telegram-desktop)" ]; then
     read -r -p "Install Telegram? [y/N] " install_telegram
 else
-    echo "Telegram already installed"
+    echo "Telegram is already installed"
 fi
 
 if [ -z "$(snap list | grep code)" ]; then
     read -r -p "Install Visual Studio Code? [y/N] " install_code
 else
-    echo "Visual Studio Code already installed"
+    echo "Visual Studio Code is already installed"
 fi
 
 read -r -p "Install audio-suite (PuddleTag, SoundJuicer, Audacity, QuodLibet, SoundVisualiser, Flacon and Spek)? [y/N] " install_audio
 read -r -p "Install SyncThing? [y/N] " install_sync
+read -r -p "Install Chromium-browser? [y/N] " install_chromium
 read -r -p "Complete language support (this may take a while)? [y/N] " install_language
 read -r -p "Upgrade packages (this may take a while)? [y/N] " install_upgrade
 
@@ -168,6 +169,11 @@ if [ "$install_sync" = "y" ] || [ "$install_sync" = "Y" ]; then
     echo "deb https://apt.syncthing.net/ syncthing stable" | sudo tee /etc/apt/sources.list.d/syncthing.list
     sudo apt update
     sudo apt install syncthing
+fi
+
+if [ "$install_chromium" = "y" ] || [ "$install_chromium" = "Y" ]; then
+    # Use chromium instead of chrome b/c chromium is available on arm, and chrome is not
+    sudo apt-get install chromium-browser
 fi
 
 #
