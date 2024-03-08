@@ -135,11 +135,11 @@ fi
 read -r -p "Install audio-suite? [y/N] " install_audio
 if [ "$install_audio" = "y" ] || [ "$install_audio" = "Y" ]; then
     sudo apt-get install puddletag -qq
-		sudo apt-get install sound-juicer -qq
-		# TODO: removable media => link audio-cd to sound-juicer
-		sudo apt-get install audacity -qq
-		sudo apt-get install quodlibet -qq
-		sudo apt-get install sonic-visualiser -qq
+    sudo apt-get install sound-juicer -qq
+    # TODO: removable media => link audio-cd to sound-juicer
+    sudo apt-get install audacity -qq
+    sudo apt-get install quodlibet -qq
+    sudo apt-get install sonic-visualiser -qq
 
     if [ -z "$(snap list | grep spek)" ]; then
         sudo snap install spek
@@ -149,9 +149,17 @@ fi
 #
 # Finishing up
 #
-echo "Complete language support"
-sudo apt-get install $(check-language-support -l nl) -qq
-sudo apt-get install $(check-language-support -l uk) -qq
+read -r -p "Complete language support (this may take a while)? [y/N] " install_language
+if [ "$install_language" = "y" ] || [ "$install_language" = "Y" ]; then
+    sudo apt-get install $(check-language-support -l nl) -qq
+    sudo apt-get install $(check-language-support -l uk) -qq
+fi
+
+read -r -p "Upgrade packages (this may take a while)? [y/N] " install_upgrade
+if [ "$install_upgrade" = "y" ] || [ "$install_upgrade" = "Y" ]; then
+    sudo apt-get upgrade -qq
+    sudo snap refresh
+fi
 
 echo "Clean-up packages"
 sudo apt-get autoremove -qq
