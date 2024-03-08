@@ -34,6 +34,26 @@ then
 fi
 
 #
+# User dialog
+#
+if [ -z "$(snap list | grep telegram-desktop)" ]; then
+    read -r -p "Install Telegram? [y/N] " install_telegram
+else
+    echo "Telegram already installed"
+fi
+
+if [ -z "$(snap list | grep code)" ]; then
+    read -r -p "Install Visual Studio Code? [y/N] " install_code
+else
+    echo "Visual Studio Code already installed"
+fi
+
+read -r -p "Install audio-suite (PuddleTag, SoundJuicer, Audacity, QuodLibet, SoundVisualiser, Flacon and Spek)? [y/N] " install_audio
+read -r -p "Install SyncThing? [y/N] " install_sync
+read -r -p "Complete language support (this may take a while)? [y/N] " install_language
+read -r -p "Upgrade packages (this may take a while)? [y/N] " install_upgrade
+
+#
 # System settings
 #
 echo "System settings"
@@ -111,36 +131,20 @@ gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
 echo "Install extra packages"
 sudo apt-get update -qq  # Update first otherwise subsequent installs will not work on a fresh system
 
-# Install dconf-editor
 sudo apt-get install dconf-editor -qq
 
-# Install pinta/snap
 if [ -z "$(snap list | grep pinta)" ]; then
     sudo snap install pinta
 fi
 
-# Install Telegram/snap
-if [ -z "$(snap list | grep telegram-desktop)" ]; then
-    read -r -p "Install Telegram? [y/N] " install_telegram
-    if [ "$install_telegram" = "y" ] || [ "$install_telegram" = "Y" ]; then
-        sudo snap install telegram-desktop
-    fi
-else
-    echo "Telegram already installed"
+if [ "$install_telegram" = "y" ] || [ "$install_telegram" = "Y" ]; then
+    sudo snap install telegram-desktop
 fi
 
-# Install Visual Studio Code/snap
-if [ -z "$(snap list | grep code)" ]; then
-    read -r -p "Install Visual Studio Code? [y/N] " install_code
-    if [ "$install_code" = "y" ] || [ "$install_code" = "Y" ]; then
-        sudo snap install --classic code
-    fi
-else
-    echo "Visual Studio Code already installed"
+if [ "$install_code" = "y" ] || [ "$install_code" = "Y" ]; then
+    sudo snap install --classic code
 fi
 
-# Install audio-suite
-read -r -p "Install audio-suite (PuddleTag, SoundJuicer, Audacity, QuodLibet, SoundVisualiser, Flacon and Spek)? [y/N] " install_audio
 if [ "$install_audio" = "y" ] || [ "$install_audio" = "Y" ]; then
     sudo apt-get install puddletag -qq
     sudo apt-get install sound-juicer -qq
@@ -158,8 +162,6 @@ if [ "$install_audio" = "y" ] || [ "$install_audio" = "Y" ]; then
     fi
 fi
 
-# Install SyncThing
-read -r -p "Install SyncThing? [y/N] " install_sync
 if [ "$install_sync" = "y" ] || [ "$install_sync" = "Y" ]; then
     sudo apt install curl apt-transport-https
     sudo mkdir -p /etc/apt/keyrings
@@ -172,13 +174,11 @@ fi
 #
 # Finishing up
 #
-read -r -p "Complete language support (this may take a while)? [y/N] " install_language
 if [ "$install_language" = "y" ] || [ "$install_language" = "Y" ]; then
     sudo apt-get install $(check-language-support -l nl) -qq
     sudo apt-get install $(check-language-support -l uk) -qq
 fi
 
-read -r -p "Upgrade packages (this may take a while)? [y/N] " install_upgrade
 if [ "$install_upgrade" = "y" ] || [ "$install_upgrade" = "Y" ]; then
     sudo apt-get upgrade -qq
     sudo snap refresh
