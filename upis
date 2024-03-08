@@ -83,7 +83,7 @@ gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false
 gsettings set org.gnome.shell.extensions.dash-to-dock show-trash true
 
 # Favourites, only replace when these are set to default
-if [ "$(gsettings get org.gnome.shell favorite-apps)" = "['firefox_firefox.desktop', 'thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'rhythmbox.desktop', 'libreoffice-writer.desktop', 'snap-store_ubuntu-software.desktop', 'yelp.desktop']" ]; then
+if [ "$(gsettings get org.gnome.shell favorite-apps)" = "['ubuntu-desktop-installer_ubuntu-desktop-installer.desktop', 'ubiquity.desktop', 'firefox_firefox.desktop', 'thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'rhythmbox.desktop', 'libreoffice-writer.desktop', 'snap-store_snap-store.desktop', 'yelp.desktop']" ]; then
     gsettings set org.gnome.shell favorite-apps "['firefox_firefox.desktop', 'org.gnome.Nautilus.desktop']"
 fi
 
@@ -187,5 +187,4 @@ fi
 echo "Clean-up packages"
 sudo apt-get autoremove -qq
 sudo apt-get autoclean -qq
-
 
