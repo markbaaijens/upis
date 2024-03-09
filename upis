@@ -49,6 +49,7 @@ else
 fi
 
 read -r -p "Install audio-suite (PuddleTag, SoundJuicer, Audacity, QuodLibet, SoundVisualiser, Flacon and Spek)? [y/N] " install_audio
+read -r -p "Install graphic-suite (GIMP, Pinta, Inkscape)? [y/N] " install_graphic
 read -r -p "Install SyncThing? [y/N] " install_sync
 read -r -p "Install Chromium-browser? [y/N] " install_chromium
 read -r -p "Complete language support (this may take a while)? [y/N] " install_language
@@ -57,7 +58,6 @@ read -r -p "Upgrade packages (this may take a while)? [y/N] " install_upgrade
 #
 # System settings
 #
-echo "System settings"
 
 # De-activate error-system
 sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
@@ -75,7 +75,6 @@ sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 #
 # Personal settings
 #
-echo "Personal settings"
 
 # Provide template for text-file through context-menu Nautilus
 if [ -d ~/Sjablonen ]; then
@@ -128,22 +127,9 @@ gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
 #
 # Packages 
 #
-echo "Install extra packages"
 sudo apt-get update -qq  # Update first otherwise subsequent installs will not work on a fresh system
 
 sudo apt-get install dconf-editor htop tree bwm-ng nmap -qq
-
-if [ -z "$(snap list | grep pinta)" ]; then
-    sudo snap install pinta
-fi
-
-if [ "$install_telegram" = "y" ] || [ "$install_telegram" = "Y" ]; then
-    sudo snap install telegram-desktop
-fi
-
-if [ "$install_code" = "y" ] || [ "$install_code" = "Y" ]; then
-    sudo snap install --classic code
-fi
 
 if [ "$install_audio" = "y" ] || [ "$install_audio" = "Y" ]; then
     sudo apt-get install puddletag -qq
@@ -160,6 +146,20 @@ if [ "$install_audio" = "y" ] || [ "$install_audio" = "Y" ]; then
     if [ -z "$(snap list | grep spek)" ]; then
         sudo snap install spek
     fi
+fi
+
+if [ "$install_graphic" = "y" ] || [ "$install_graphic" = "Y" ]; then
+    sudo snap install pinta
+    sudo snap install gimp
+    sudo snap install inkscape
+fi
+
+if [ "$install_telegram" = "y" ] || [ "$install_telegram" = "Y" ]; then
+    sudo snap install telegram-desktop
+fi
+
+if [ "$install_code" = "y" ] || [ "$install_code" = "Y" ]; then
+    sudo snap install --classic code
 fi
 
 if [ "$install_sync" = "y" ] || [ "$install_sync" = "Y" ]; then
@@ -189,7 +189,6 @@ if [ "$install_upgrade" = "y" ] || [ "$install_upgrade" = "Y" ]; then
     sudo snap refresh
 fi
 
-echo "Clean-up packages"
 sudo apt-get autoremove -qq
 sudo apt-get autoclean -qq
 
