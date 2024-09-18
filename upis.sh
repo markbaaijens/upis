@@ -36,22 +36,15 @@ fi
 #
 # User dialog
 #
-if [ -z "$(snap list | grep telegram-desktop)" ]; then
-    read -r -p "Install Telegram? [y/N] " install_telegram
-else
-    echo "Telegram is already installed"
-fi
-
-if [ -z "$(snap list | grep code)" ]; then
-    read -r -p "Install Visual Studio Code? [y/N] " install_code
-else
-    echo "Visual Studio Code is already installed"
-fi
-
-read -r -p "Install audio-suite (PuddleTag, SoundJuicer, Audacity, QuodLibet, SoundVisualiser, Flacon and Spek)? [y/N] " install_audio
-read -r -p "Install graphic-suite (GIMP, Pinta, Inkscape)? [y/N] " install_graphic
-read -r -p "Install SyncThing? [y/N] " install_sync
-read -r -p "Install Chromium-browser? [y/N] " install_chromium
+echo "Choose what to install:"
+read -r -p "Telegram? [y/N] " install_telegram
+read -r -p "Visual Studio Code? [y/N] " install_code
+read -r -p "Audio-suite (PuddleTag, SoundJuicer, Audacity, QuodLibet, SoundVisualiser, Flacon and Spek)? [y/N] " install_audio
+read -r -p "Graphic-suite (GIMP, Pinta, Inkscape)? [y/N] " install_graphic
+read -r -p "SyncThing? [y/N] " install_sync
+read -r -p "Zim desktop-wiki? [y/N] " install_zim
+read -r -p "Raspberry Pi-imager? [y/N] " install_rpimager
+read -r -p "Chromium-browser? [y/N] " install_chromium
 read -r -p "Complete language support (this may take a while)? [y/N] " install_language
 read -r -p "Upgrade packages (this may take a while)? [y/N] " install_upgrade
 
@@ -64,7 +57,7 @@ sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 
 # Commented out b/c zram-config is not working correctly on arm64
 # Use zram = compressed memory (advantage when in low memory)
-#sudo apt-get install zram-config -qq
+#sudo apt-get install zram-config -q
 #sudo systemctl enable zram-config
 #sudo systemctl start zram-config
 
@@ -93,7 +86,7 @@ gsettings set org.gnome.desktop.interface clock-show-weekday true
 gsettings set org.gnome.desktop.calendar show-weekdate true
 
 # Dock
-gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize-or-previews' # Alternative: 'minimize'
+gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'minimize-or-previews'
 gsettings set org.gnome.shell.extensions.dash-to-dock autohide-in-fullscreen true
 gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false
 gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
@@ -101,7 +94,7 @@ gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
 gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false
 gsettings set org.gnome.shell.extensions.dash-to-dock show-trash true
 
-# Favourites, only replace when these are set to default
+# Favourites, only replace when these are set to default from a clean install
 if [ "$(gsettings get org.gnome.shell favorite-apps)" = "['ubuntu-desktop-installer_ubuntu-desktop-installer.desktop', 'ubiquity.desktop', 'firefox_firefox.desktop', 'thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'rhythmbox.desktop', 'libreoffice-writer.desktop', 'snap-store_snap-store.desktop', 'yelp.desktop']" ]; then
     gsettings set org.gnome.shell favorite-apps "['firefox_firefox.desktop', 'org.gnome.Nautilus.desktop']"
 fi
@@ -127,25 +120,26 @@ gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
 #
 # Packages 
 #
-sudo apt-get update -qq  # Update first otherwise subsequent installs will not work on a fresh system
 
-sudo apt-get install dconf-editor htop tree bwm-ng nmap -qq
+# Update first otherwise subsequent installs will not work on a fresh system
+# Notice the single 'q' (and not 'qq') to procvide some feedback
+sudo apt-get update -q  
+
+sudo apt-get install dconf-editor htop tree bwm-ng nmap -q
 
 if [ "$install_audio" = "y" ] || [ "$install_audio" = "Y" ]; then
-    sudo apt-get install puddletag -qq
-    sudo apt-get install sound-juicer -qq
+    sudo apt-get install puddletag -q
+    sudo apt-get install sound-juicer -q
     # TODO: removable media => link audio-cd to sound-juicer
-    sudo apt-get install audacity -qq
-    sudo apt-get install quodlibet -qq
-    sudo apt-get install sonic-visualiser -qq
+    sudo apt-get install audacity -q
+    sudo apt-get install quodlibet -q
+    sudo apt-get install sonic-visualiser -q
 
     # Snap from flacon-tabetai does not start
     sudo add-apt-repository ppa:flacon -y
-    sudo apt install flacon -qq
+    sudo apt install flacon -q
 
-    if [ -z "$(snap list | grep spek)" ]; then
-        sudo snap install spek
-    fi
+    sudo snap install spek
 fi
 
 if [ "$install_graphic" = "y" ] || [ "$install_graphic" = "Y" ]; then
@@ -159,7 +153,9 @@ if [ "$install_telegram" = "y" ] || [ "$install_telegram" = "Y" ]; then
 fi
 
 if [ "$install_code" = "y" ] || [ "$install_code" = "Y" ]; then
-    sudo snap install --classic code
+    if [ "$(uname -a | grep x86_64)" ]; then
+        sudo snap install --classic code
+    fi
 fi
 
 if [ "$install_sync" = "y" ] || [ "$install_sync" = "Y" ]; then
@@ -176,19 +172,27 @@ if [ "$install_chromium" = "y" ] || [ "$install_chromium" = "Y" ]; then
     sudo apt-get install chromium-browser
 fi
 
+if [ "$install_zim" = "y" ] || [ "$install_chromium" = "Y" ]; then
+    sudo apt-get install zim -q
+fi
+
+if [ "$install_rpimager" = "y" ] || [ "$install_chromium" = "Y" ]; then
+     sudo apt install rpi-imager -q
+fi
+
 #
 # Finishing up
 #
 if [ "$install_language" = "y" ] || [ "$install_language" = "Y" ]; then
-    sudo apt-get install $(check-language-support -l nl) -qq
-    sudo apt-get install $(check-language-support -l uk) -qq
+    sudo apt-get install $(check-language-support -l nl) -q
+    sudo apt-get install $(check-language-support -l uk) -q
 fi
 
 if [ "$install_upgrade" = "y" ] || [ "$install_upgrade" = "Y" ]; then
-    sudo apt-get upgrade -qq
+    sudo apt-get upgrade -y
     sudo snap refresh
 fi
 
-sudo apt-get autoremove -qq
-sudo apt-get autoclean -qq
+sudo apt-get autoremove -q
+sudo apt-get autoclean -q
 
