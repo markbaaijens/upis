@@ -73,7 +73,7 @@ sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 if [ -d ~/Sjablonen ]; then
     touch ~/Sjablonen/Tekst-document.txt
 else
-    echo "Folder ~/Sjablonen is not present, installation language is not Dutch?"    
+   warning_folder=1
 fi
 
 # Interface
@@ -201,4 +201,21 @@ fi
 
 sudo apt-get autoremove -y
 sudo apt-get autoclean -y
+
+#
+# Report
+#
+echo ""
+if [ $install_telegram ]; then echo "Installed: Telegram"; fi
+if [ $install_code ]; then echo "Installed: Visual Studio Code"; fi
+if [ $install_audio ]; then echo "Installed: Audio-suite "; fi
+if [ $install_graphic ]; then echo "Installed: Graphics-suite"; fi
+if [ $install_sync ]; then echo "Installed: SyncThing"; fi
+if [ $install_zim ]; then echo "Installed: Zim Desktop Wiki"; fi
+if [ $install_rpimager ]; then echo "Installed: Raspberry Pi Imager"; fi
+if [ $install_chromium ]; then echo "Installed: Chromium Browser"; fi
+if [ $install_language ]; then echo "Installed: Language Support"; fi
+if [ $install_upgrade ]; then echo "Installed: Upgarde Packages"; fi
+
+if [ $warning_folder ]; then echo "Warning: Folder ~/Sjablonen is not present, installation language is not Dutch?"; fi
 
