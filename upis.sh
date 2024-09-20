@@ -125,7 +125,9 @@ gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
 # Notice the single 'q' (and not 'qq') to procvide some feedback
 sudo apt-get update -y  
 
+# Several basic packages
 sudo apt-get install dconf-editor htop tree bwm-ng nmap -y
+sudo apt-get install gnome-shell-extension-manager -y
 
 # Replace rhythmbox with Lollypop as the default music-player
 sudo apt remove rhythmbox -y
