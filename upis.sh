@@ -57,7 +57,7 @@ sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 
 # Commented out b/c zram-config is not working correctly on arm64
 # Use zram = compressed memory (advantage when in low memory)
-#sudo apt-get install zram-config -q
+#sudo apt-get install zram-config -y
 #sudo systemctl enable zram-config
 #sudo systemctl start zram-config
 
@@ -123,21 +123,25 @@ gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
 
 # Update first otherwise subsequent installs will not work on a fresh system
 # Notice the single 'q' (and not 'qq') to procvide some feedback
-sudo apt-get update -q  
+sudo apt-get update -y  
 
-sudo apt-get install dconf-editor htop tree bwm-ng nmap -q
+sudo apt-get install dconf-editor htop tree bwm-ng nmap -y
+
+# Replace rhythmbox with Lollypop as the default music-player
+sudo apt remove rhythmbox -y
+sudo apt install lollypop -y 
 
 if [ "$install_audio" = "y" ] || [ "$install_audio" = "Y" ]; then
-    sudo apt-get install puddletag -q
-    sudo apt-get install sound-juicer -q
+    sudo apt-get install puddletag -y
+    sudo apt-get install sound-juicer -y
     # TODO: removable media => link audio-cd to sound-juicer
-    sudo apt-get install audacity -q
-    sudo apt-get install quodlibet -q
-    sudo apt-get install sonic-visualiser -q
+    sudo apt-get install audacity -y
+    sudo apt-get install quodlibet -y
+    sudo apt-get install sonic-visualiser -y
 
     # Snap from flacon-tabetai does not start
     sudo add-apt-repository ppa:flacon -y
-    sudo apt install flacon -q
+    sudo apt install flacon -y
 
     sudo snap install spek
 fi
@@ -173,19 +177,19 @@ if [ "$install_chromium" = "y" ] || [ "$install_chromium" = "Y" ]; then
 fi
 
 if [ "$install_zim" = "y" ] || [ "$install_chromium" = "Y" ]; then
-    sudo apt-get install zim -q
+    sudo apt-get install zim -y
 fi
 
 if [ "$install_rpimager" = "y" ] || [ "$install_chromium" = "Y" ]; then
-     sudo apt install rpi-imager -q
+     sudo apt install rpi-imager -y
 fi
 
 #
 # Finishing up
 #
 if [ "$install_language" = "y" ] || [ "$install_language" = "Y" ]; then
-    sudo apt-get install $(check-language-support -l nl) -q
-    sudo apt-get install $(check-language-support -l uk) -q
+    sudo apt-get install $(check-language-support -l nl) -y
+    sudo apt-get install $(check-language-support -l uk) -y
 fi
 
 if [ "$install_upgrade" = "y" ] || [ "$install_upgrade" = "Y" ]; then
@@ -193,6 +197,6 @@ if [ "$install_upgrade" = "y" ] || [ "$install_upgrade" = "Y" ]; then
     sudo snap refresh
 fi
 
-sudo apt-get autoremove -q
-sudo apt-get autoclean -q
+sudo apt-get autoremove -y
+sudo apt-get autoclean -y
 
