@@ -46,6 +46,7 @@ read -r -p "Zim desktop-wiki? [y/N] " install_zim
 read -r -p "Raspberry Pi-imager? [y/N] " install_rpimager
 read -r -p "Chromium-browser? [y/N] " install_chromium
 read -r -p "Complete language support (this may take a while)? [y/N] " install_language
+read -r -p "Replace menu? [y/N] " install_menu
 read -r -p "Upgrade packages (this may take a while)? [y/N] " install_upgrade
 
 #
@@ -96,11 +97,6 @@ gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
 gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
 gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false
 gsettings set org.gnome.shell.extensions.dash-to-dock show-trash true
-
-# Favourites, only replace when these are set to default from a clean install
-if [ "$(gsettings get org.gnome.shell favorite-apps)" = "['ubuntu-desktop-installer_ubuntu-desktop-installer.desktop', 'ubiquity.desktop', 'firefox_firefox.desktop', 'thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'rhythmbox.desktop', 'libreoffice-writer.desktop', 'snap-store_snap-store.desktop', 'yelp.desktop']" ]; then
-    gsettings set org.gnome.shell favorite-apps "['firefox_firefox.desktop', 'org.gnome.Nautilus.desktop']"
-fi
 
 # Workspaces
 gsettings set org.gnome.mutter dynamic-workspaces false
@@ -202,6 +198,10 @@ fi
 if [ "$install_upgrade" = "y" ] || [ "$install_upgrade" = "Y" ]; then
     sudo apt-get upgrade -y
     sudo snap refresh
+fi
+
+if [ "$install_menu" = "y" ] || [ "$install_menu" = "Y" ]; then
+    gsettings set org.gnome.shell favorite-apps "['firefox_firefox.desktop', 'org.gnome.Nautilus.desktop']"
 fi
 
 sudo apt-get autoremove -y
