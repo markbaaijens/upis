@@ -38,16 +38,38 @@ fi
 #
 echo "Choose what to install:"
 read -r -p "Telegram? [y/N] " install_telegram
+install_telegram=${install_telegram,,}
+
 read -r -p "Visual Studio Code? [y/N] " install_code
+install_code=${install_code,,}
+
 read -r -p "Audio-suite (PuddleTag, SoundJuicer, Audacity, QuodLibet, SoundVisualiser, Flacon and Spek)? [y/N] " install_audio
+install_audio=${install_audio,,}
+
 read -r -p "Graphic-suite (GIMP, Pinta, Inkscape)? [y/N] " install_graphic
+install_graphic=${install_graphic,,}
+
 read -r -p "SyncThing? [y/N] " install_sync
+install_sync=${install_sync,,}
+
 read -r -p "Zim desktop-wiki? [y/N] " install_zim
+install_zim=${install_zim,,}
+
 read -r -p "Raspberry Pi-imager? [y/N] " install_rpimager
+install_rpimager=${install_rpimager,,}
+
 read -r -p "Chromium-browser? [y/N] " install_chromium
+install_chromium=${install_chromium,,}
+
 read -r -p "Complete language support (this may take a while)? [y/N] " install_language
+install_language=${install_language,,}
+
 read -r -p "Replace menu? [y/N] " install_menu
+install_menu=${install_menu,,}
+
 read -r -p "Upgrade packages (this may take a while)? [y/N] " install_upgrade
+install_upgrade=${install_upgrade,,}
+
 
 #
 # System settings
@@ -134,7 +156,7 @@ sudo apt-get install gnome-shell-extension-manager -y
 sudo apt remove rhythmbox -y
 sudo apt install lollypop -y 
 
-if [ "$install_audio" = "y" ] || [ "$install_audio" = "Y" ]; then
+if [ "$install_audio" = "y" ]; then
     sudo apt-get install puddletag -y
     sudo apt-get install sound-juicer -y
     # TODO: removable media => link audio-cd to sound-juicer
@@ -149,23 +171,23 @@ if [ "$install_audio" = "y" ] || [ "$install_audio" = "Y" ]; then
     sudo snap install spek
 fi
 
-if [ "$install_graphic" = "y" ] || [ "$install_graphic" = "Y" ]; then
+if [ "$install_graphic" = "y" ]; then
     sudo snap install pinta
     sudo snap install gimp
     sudo snap install inkscape
 fi
 
-if [ "$install_telegram" = "y" ] || [ "$install_telegram" = "Y" ]; then
+if [ "$install_telegram" = "y" ]; then
     sudo snap install telegram-desktop
 fi
 
-if [ "$install_code" = "y" ] || [ "$install_code" = "Y" ]; then
+if [ "$install_code" = "y" ]; then
     if [ "$(uname -a | grep x86_64)" ]; then
         sudo snap install --classic code
     fi
 fi
 
-if [ "$install_sync" = "y" ] || [ "$install_sync" = "Y" ]; then
+if [ "$install_sync" = "y" ]; then
     sudo apt install curl apt-transport-https
     sudo mkdir -p /etc/apt/keyrings
     sudo curl -L -o /etc/apt/keyrings/syncthing-archive-keyring.gpg https://syncthing.net/release-key.gpg
@@ -174,33 +196,33 @@ if [ "$install_sync" = "y" ] || [ "$install_sync" = "Y" ]; then
     sudo apt install syncthing
 fi
 
-if [ "$install_chromium" = "y" ] || [ "$install_chromium" = "Y" ]; then
+if [ "$install_chromium" = "y" ]; then
     # Use chromium instead of chrome b/c chromium is available on arm, and chrome is not
     sudo apt-get install chromium-browser
 fi
 
-if [ "$install_zim" = "y" ] || [ "$install_chromium" = "Y" ]; then
+if [ "$install_zim" = "y" ]; then
     sudo apt-get install zim -y
 fi
 
-if [ "$install_rpimager" = "y" ] || [ "$install_chromium" = "Y" ]; then
+if [ "$install_rpimager" = "y" ]; then
      sudo apt install rpi-imager -y
 fi
 
 #
 # Finishing up
 #
-if [ "$install_language" = "y" ] || [ "$install_language" = "Y" ]; then
+if [ "$install_language" = "y" ]; then
     sudo apt-get install $(check-language-support -l nl) -y
     sudo apt-get install $(check-language-support -l uk) -y
 fi
 
-if [ "$install_upgrade" = "y" ] || [ "$install_upgrade" = "Y" ]; then
+if [ "$install_upgrade" = "y" ]; then
     sudo apt-get upgrade -y
     sudo snap refresh
 fi
 
-if [ "$install_menu" = "y" ] || [ "$install_menu" = "Y" ]; then
+if [ "$install_menu" = "y" ]; then
     gsettings set org.gnome.shell favorite-apps "['firefox_firefox.desktop', 'org.gnome.Nautilus.desktop']"
 fi
 
@@ -211,16 +233,16 @@ sudo apt-get autoclean -y
 # Report
 #
 echo ""
-if [ $install_telegram ]; then echo "Installed: Telegram"; fi
-if [ $install_code ]; then echo "Installed: Visual Studio Code"; fi
-if [ $install_audio ]; then echo "Installed: Audio-suite "; fi
-if [ $install_graphic ]; then echo "Installed: Graphics-suite"; fi
-if [ $install_sync ]; then echo "Installed: SyncThing"; fi
-if [ $install_zim ]; then echo "Installed: Zim Desktop Wiki"; fi
-if [ $install_rpimager ]; then echo "Installed: Raspberry Pi Imager"; fi
-if [ $install_chromium ]; then echo "Installed: Chromium Browser"; fi
-if [ $install_language ]; then echo "Installed: Language Support"; fi
-if [ $install_upgrade ]; then echo "Installed: Upgrade Packages"; fi
+if [ $install_telegram = 'y' ]; then echo "Installed: Telegram"; fi
+if [ $install_code = 'y' ]; then echo "Installed: Visual Studio Code"; fi
+if [ $install_audio = 'y' ]; then echo "Installed: Audio-suite "; fi
+if [ $install_graphic = 'y' ]; then echo "Installed: Graphics-suite"; fi
+if [ $install_sync = 'y' ]; then echo "Installed: SyncThing"; fi
+if [ $install_zim = 'y' ]; then echo "Installed: Zim Desktop Wiki"; fi
+if [ $install_rpimager = 'y' ]; then echo "Installed: Raspberry Pi Imager"; fi
+if [ $install_chromium = 'y' ]; then echo "Installed: Chromium Browser"; fi
+if [ $install_language = 'y' ]; then echo "Installed: Language Support"; fi
+if [ $install_upgrade = 'y' ]; then echo "Installed: Upgrade Packages"; fi
 
 if [ $warning_folder ]; then echo "Warning: Folder ~/Sjablonen is not present, installation language is not Dutch?"; fi
 
