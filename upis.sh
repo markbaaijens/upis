@@ -65,6 +65,9 @@ sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 #sudo sed -i '/vm.swappiness=/d' /etc/sysctl.conf  # Remove the line first if present
 #sudo /bin/sh -c 'echo "vm.swappiness=150" >> /etc/sysctl.conf'
 
+# Remove Libre-office
+sudo apt remove libreoffice-*
+
 #
 # Personal settings
 #
@@ -217,7 +220,7 @@ if [ $install_zim ]; then echo "Installed: Zim Desktop Wiki"; fi
 if [ $install_rpimager ]; then echo "Installed: Raspberry Pi Imager"; fi
 if [ $install_chromium ]; then echo "Installed: Chromium Browser"; fi
 if [ $install_language ]; then echo "Installed: Language Support"; fi
-if [ $install_upgrade ]; then echo "Installed: Upgarde Packages"; fi
+if [ $install_upgrade ]; then echo "Installed: Upgrade Packages"; fi
 
 if [ $warning_folder ]; then echo "Warning: Folder ~/Sjablonen is not present, installation language is not Dutch?"; fi
 
