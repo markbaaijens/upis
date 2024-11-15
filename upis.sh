@@ -66,9 +66,6 @@ sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 #sudo sed -i '/vm.swappiness=/d' /etc/sysctl.conf  # Remove the line first if present
 #sudo /bin/sh -c 'echo "vm.swappiness=150" >> /etc/sysctl.conf'
 
-# Remove Libre-office
-sudo apt remove libreoffice-*
-
 #
 # Personal settings
 #
@@ -122,6 +119,9 @@ gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
 
 # Update first otherwise subsequent installs will not work on a fresh system
 sudo apt-get update -y  
+
+# Remove Libre-office
+sudo apt remove libreoffice-*
 
 # Several basic packages
 sudo apt-get install dconf-editor htop tree bwm-ng nmap -y
