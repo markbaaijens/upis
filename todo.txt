@@ -1,0 +1,5 @@
+- script does not run on vanilla-installations
+  - to be examined
+- Replace Video's (Totem) by Celluloid
+    sudo apt-get purge totem totem-plugins
+    sudo apt install celluloid
