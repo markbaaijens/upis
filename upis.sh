@@ -29,7 +29,7 @@ fi
 desktop=$(echo $DESKTOP_SESSION | tr '[:upper:]' '[:lower:]')
 if [ "$desktop" != "ubuntu" ]
 then
-  echo "No supported desktop found. Exiting"
+  echo "No supported desktop found."
   exit 1      
 fi
 
@@ -96,7 +96,7 @@ sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 if [ -d ~/Sjablonen ]; then
     touch ~/Sjablonen/Tekst-document.txt
 else
-   warning_folder=1
+    warning_folder=1
 fi
 
 # Interface
@@ -118,15 +118,15 @@ gsettings set org.gnome.shell.extensions.dash-to-dock show-mounts false
 gsettings set org.gnome.shell.extensions.dash-to-dock show-trash true
 
 # Workspaces
-gsettings set org.gnome.mutter dynamic-workspaces false
-gsettings set org.gnome.desktop.wm.preferences num-workspaces 1
+#gsettings set org.gnome.mutter dynamic-workspaces false
+#gsettings set org.gnome.desktop.wm.preferences num-workspaces 1
 
 # Nightmode
 gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3282
 
 # Mouse and Touchpad 
-gsettings set org.gnome.desktop.peripherals.touchpad speed 0.3 # Accelerate a bit
+#gsettings set org.gnome.desktop.peripherals.touchpad speed 0.3 # Accelerate a bit
 
 # Nautilus
 gsettings set org.gnome.nautilus.preferences open-folder-on-dnd-hover true
@@ -143,7 +143,7 @@ gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
 sudo apt-get update -y  
 
 # Remove Libre-office
-sudo apt remove libreoffice-*
+#sudo apt remove libreoffice-*
 
 # Several basic packages
 sudo apt-get install dconf-editor htop tree bwm-ng nmap -y
@@ -152,9 +152,9 @@ sudo apt-get install dconf-editor htop tree bwm-ng nmap -y
 # though you cannot new extensions through browsing
 sudo apt-get install gnome-shell-extension-manager -y
 
-# Replace rhythmbox with Lollypop as the default music-player
+# Reove rhythmbox 
 sudo apt remove rhythmbox -y
-sudo apt install lollypop -y 
+#sudo apt install lollypop -y 
 
 if [ "$install_audio" = "y" ]; then
     sudo apt-get install puddletag -y
