@@ -82,7 +82,7 @@ sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 
 # Commented out b/c zram-config is not working correctly on arm64
 # Use zram = compressed memory (advantage when in low memory)
-#sudo apt-get install zram-config -y
+#sudo apt install zram-config -y
 #sudo systemctl enable zram-config
 #sudo systemctl start zram-config
 
@@ -142,29 +142,32 @@ gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
 #
 
 # Update first otherwise subsequent installs will not work on a fresh system
-sudo apt-get update -y  
+sudo apt update -y  
 
 # Remove Libre-office
 #sudo apt remove libreoffice-*
 
 # Several basic packages
-sudo apt-get install dconf-editor htop tree bwm-ng nmap -y
+sudo apt install dconf-editor htop tree bwm-ng nmap -y
 
 # Note. Package gnome-shell-extensions does slightly the same (showing gnome-extensions), 
 # though you cannot new extensions through browsing
-sudo apt-get install gnome-shell-extension-manager -y
+sudo apt install gnome-shell-extension-manager -y
 
-# Reove rhythmbox 
+# Replace Video's (Totem) by Celluloid
+sudo apt purge totem totem-plugins -y
+sudo apt install celluloid -y
+
+# Remove rhythmbox; music is better played with celluloid
 sudo apt remove rhythmbox -y
-#sudo apt install lollypop -y 
 
 if [ "$install_audio" = "y" ]; then
-    sudo apt-get install puddletag -y
-    sudo apt-get install sound-juicer -y
+    sudo apt install puddletag -y
+    sudo apt install sound-juicer -y
     # TODO: removable media => link audio-cd to sound-juicer
-    sudo apt-get install audacity -y
-    sudo apt-get install quodlibet -y
-    sudo apt-get install sonic-visualiser -y
+    sudo apt install audacity -y
+    sudo apt install quodlibet -y
+    sudo apt install sonic-visualiser -y
 
     # Snap from flacon-tabetai does not start
     sudo add-apt-repository ppa:flacon -y
@@ -200,11 +203,11 @@ fi
 
 if [ "$install_chromium" = "y" ]; then
     # Use chromium instead of chrome b/c chromium is available on arm, and chrome is not
-    sudo apt-get install chromium-browser
+    sudo apt install chromium-browser
 fi
 
 if [ "$install_zim" = "y" ]; then
-    sudo apt-get install zim -y
+    sudo apt install zim -y
 fi
 
 if [ "$install_rpimager" = "y" ]; then
@@ -214,11 +217,11 @@ fi
 #
 # Finishing up
 #
-sudo apt-get install $(check-language-support -l nl) -y
-sudo apt-get install $(check-language-support -l uk) -y
+sudo apt install $(check-language-support -l nl) -y
+sudo apt install $(check-language-support -l uk) -y
 
 if [ "$install_upgrade" = "y" ]; then
-    sudo apt-get upgrade -y
+    sudo apt upgrade -y
     sudo snap refresh
 fi
 
@@ -226,8 +229,8 @@ if [ "$install_menu" = "y" ]; then
     gsettings set org.gnome.shell favorite-apps "['firefox_firefox.desktop', 'org.gnome.Nautilus.desktop']"
 fi
 
-sudo apt-get autoremove -y
-sudo apt-get autoclean -y
+sudo apt autoremove -y
+sudo apt autoclean -y
 
 #
 # Report
