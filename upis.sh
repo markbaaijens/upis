@@ -38,38 +38,40 @@ fi
 #
 echo "Choose what to install:"
 read -r -p "Telegram? [y/N] " install_telegram
-install_telegram=${install_telegram,,}
+install_telegram=$(echo $install_telegram | tr '[:upper:]' '[:lower:]')
 
 read -r -p "Visual Studio Code? [y/N] " install_code
-install_code=${install_code,,}
+install_code=$(echo $install_code | tr '[:upper:]' '[:lower:]')
 
 read -r -p "Audio-suite (PuddleTag, SoundJuicer, Audacity, QuodLibet, SoundVisualiser, Flacon and Spek)? [y/N] " install_audio
-install_audio=${install_audio,,}
+install_audio=$(echo $install_audio | tr '[:upper:]' '[:lower:]')
 
 read -r -p "Graphic-suite (GIMP, Pinta, Inkscape)? [y/N] " install_graphic
-install_graphic=${install_graphic,,}
+install_graphic=$(echo $install_graphic | tr '[:upper:]' '[:lower:]')
 
 read -r -p "SyncThing? [y/N] " install_sync
-install_sync=${install_sync,,}
+install_sync=$(echo $install_sync | tr '[:upper:]' '[:lower:]')
 
 read -r -p "Zim desktop-wiki? [y/N] " install_zim
-install_zim=${install_zim,,}
+install_zim=$(echo $install_zim | tr '[:upper:]' '[:lower:]')
 
 read -r -p "Raspberry Pi-imager? [y/N] " install_rpimager
-install_rpimager=${install_rpimager,,}
+install_rpimager=$(echo $install_rpimager | tr '[:upper:]' '[:lower:]')
 
 read -r -p "Chromium-browser? [y/N] " install_chromium
-install_chromium=${install_chromium,,}
-
-read -r -p "Complete language support (this may take a while)? [y/N] " install_language
-install_language=${install_language,,}
+install_chromium=$(echo $install_chromium | tr '[:upper:]' '[:lower:]')
 
 read -r -p "Replace menu? [y/N] " install_menu
-install_menu=${install_menu,,}
+install_menu=$(echo $install_menu | tr '[:upper:]' '[:lower:]')
 
 read -r -p "Upgrade packages (this may take a while)? [y/N] " install_upgrade
-install_upgrade=${install_upgrade,,}
+install_upgrade=$(echo $install_upgrade | tr '[:upper:]' '[:lower:]')
 
+read -r -p "Proceed? [y/N] " proceed
+proceed=$(echo $proceed | tr '[:upper:]' '[:lower:]')
+if [ "$proceed" != "y" ]; then
+    exit
+fi
 
 #
 # System settings
@@ -212,10 +214,8 @@ fi
 #
 # Finishing up
 #
-if [ "$install_language" = "y" ]; then
-    sudo apt-get install $(check-language-support -l nl) -y
-    sudo apt-get install $(check-language-support -l uk) -y
-fi
+sudo apt-get install $(check-language-support -l nl) -y
+sudo apt-get install $(check-language-support -l uk) -y
 
 if [ "$install_upgrade" = "y" ]; then
     sudo apt-get upgrade -y
@@ -232,17 +232,15 @@ sudo apt-get autoclean -y
 #
 # Report
 #
-echo ""
-if [ $install_telegram = 'y' ]; then echo "Installed: Telegram"; fi
-if [ $install_code = 'y' ]; then echo "Installed: Visual Studio Code"; fi
-if [ $install_audio = 'y' ]; then echo "Installed: Audio-suite "; fi
-if [ $install_graphic = 'y' ]; then echo "Installed: Graphics-suite"; fi
-if [ $install_sync = 'y' ]; then echo "Installed: SyncThing"; fi
-if [ $install_zim = 'y' ]; then echo "Installed: Zim Desktop Wiki"; fi
-if [ $install_rpimager = 'y' ]; then echo "Installed: Raspberry Pi Imager"; fi
-if [ $install_chromium = 'y' ]; then echo "Installed: Chromium Browser"; fi
-if [ $install_language = 'y' ]; then echo "Installed: Language Support"; fi
-if [ $install_upgrade = 'y' ]; then echo "Installed: Upgrade Packages"; fi
+echo "---"
+if [ "$install_code" = "y" ]; then echo "Installed: Visual Studio Code"; fi
+if [ "$install_audio" = "y" ]; then echo "Installed: Audio-suite"; fi
+if [ "$install_graphic" = "y" ]; then echo "Installed: Graphics-suite"; fi
+if [ "$install_sync" = "y" ]; then echo "Installed: SyncThing"; fi
+if [ "$install_zim" = "y" ]; then echo "Installed: Zim Desktop Wiki"; fi
+if [ "$install_rpimager" = "y" ]; then echo "Installed: Raspberry Pi Imager"; fi
+if [ "$install_chromium" = "y" ]; then echo "Installed: Chromium Browser"; fi
+if [ "$install_upgrade" = "y" ]; then echo "Processed: Upgrade Packages"; fi
 
 if [ $warning_folder ]; then echo "Warning: Folder ~/Sjablonen is not present, installation language is not Dutch?"; fi
 
