@@ -1,3 +1,1 @@
-- Replace Video's (Totem) by Celluloid
-    sudo apt-get purge totem totem-plugins
-    sudo apt install celluloid
+- removable media => link audio-cd to sound-juicer

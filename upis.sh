@@ -64,9 +64,6 @@ install_chromium=$(echo $install_chromium | tr '[:upper:]' '[:lower:]')
 read -r -p "Replace menu? [y/N] " install_menu
 install_menu=$(echo $install_menu | tr '[:upper:]' '[:lower:]')
 
-read -r -p "Upgrade packages (this may take a while)? [y/N] " install_upgrade
-install_upgrade=$(echo $install_upgrade | tr '[:upper:]' '[:lower:]')
-
 echo "---"
 echo "Selected:"
 if [ "$install_code" = "y" ]; then echo "- Install: Visual Studio Code"; fi
@@ -76,7 +73,6 @@ if [ "$install_sync" = "y" ]; then echo "- Install: SyncThing"; fi
 if [ "$install_zim" = "y" ]; then echo "- Install: Zim Desktop Wiki"; fi
 if [ "$install_rpimager" = "y" ]; then echo "- Install: Raspberry Pi Imager"; fi
 if [ "$install_chromium" = "y" ]; then echo "- Install: Chromium Browser"; fi
-if [ "$install_upgrade" = "y" ]; then echo "- Upgrade Packages"; fi
 
 read -r -p "Proceed? [y/N] " proceed
 proceed=$(echo $proceed | tr '[:upper:]' '[:lower:]')
@@ -155,9 +151,6 @@ gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
 # Update first otherwise subsequent installs will not work on a fresh system
 sudo apt update -y  
 
-# Remove Libre-office
-#sudo apt remove libreoffice-*
-
 # Several basic packages
 sudo apt install dconf-editor htop tree bwm-ng nmap -y
 
@@ -175,7 +168,6 @@ sudo apt remove rhythmbox -y
 if [ "$install_audio" = "y" ]; then
     sudo apt install puddletag -y
     sudo apt install sound-juicer -y
-    # TODO: removable media => link audio-cd to sound-juicer
     sudo apt install audacity -y
     sudo apt install quodlibet -y
     sudo apt install sonic-visualiser -y
@@ -225,20 +217,18 @@ if [ "$install_rpimager" = "y" ]; then
      sudo apt install rpi-imager -y
 fi
 
-#
-# Finishing up
-#
-sudo apt install $(check-language-support -l nl) -y
-sudo apt install $(check-language-support -l uk) -y
-
-if [ "$install_upgrade" = "y" ]; then
-    sudo apt upgrade -y
-    sudo snap refresh
-fi
-
 if [ "$install_menu" = "y" ]; then
     gsettings set org.gnome.shell favorite-apps "['firefox_firefox.desktop', 'org.gnome.Nautilus.desktop']"
 fi
+
+#
+# Finishing up
+#
+
+sudo apt install $(check-language-support -l nl) -y
+sudo apt install $(check-language-support -l uk) -y
+sudo apt dist-upgrade -y
+sudo snap refresh
 
 sudo apt autoremove -y
 sudo apt autoclean -y
@@ -254,7 +244,10 @@ if [ "$install_sync" = "y" ]; then echo "Installed: SyncThing"; fi
 if [ "$install_zim" = "y" ]; then echo "Installed: Zim Desktop Wiki"; fi
 if [ "$install_rpimager" = "y" ]; then echo "Installed: Raspberry Pi Imager"; fi
 if [ "$install_chromium" = "y" ]; then echo "Installed: Chromium Browser"; fi
-if [ "$install_upgrade" = "y" ]; then echo "Processed: Upgrade Packages"; fi
-
+echo "Upgraded all packages"
+echo "Installed: dconf-editor htop tree bwm-ng nmap"
+echo "Installed: gnome-shell-extension-manager"
+echo "Replaced Video's (Totem) by Celluloid"
+echo "Removed Rhythmbox (music is better played with Celluloid)"
 if [ $warning_folder ]; then echo "Warning: Folder ~/Sjablonen is not present, installation language is not Dutch?"; fi
 
