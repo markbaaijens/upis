@@ -1,1 +1,20 @@
 - removable media => link audio-cd to sound-juicer
+- VS Code not installed on ARM
+wget https://vscode.download.prss.microsoft.com/dbazure/download/stable/e8653663e8840adaf45af01eab5c627a5af81807/code_1.95.2-1730980375_arm64.deb
+sudo dpkg -i code_1.95.2-1730980375_arm64.deb
+
+* extensions on GNOME
+  * specific extensions:
+    * weather o'clock
+* background
+  * load background
+  * copy backgrounds so that they are available
+* Settings, Search: only files + settings
+
+Research
+* flacon
+  *  on arm
+  * snap from flacon-tabetai does not start
+* VS Code on arm
+* syncting: PPA or snap
+  * sudo snap install syncthing-arubislander'
