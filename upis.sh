@@ -67,6 +67,17 @@ install_menu=$(echo $install_menu | tr '[:upper:]' '[:lower:]')
 read -r -p "Upgrade packages (this may take a while)? [y/N] " install_upgrade
 install_upgrade=$(echo $install_upgrade | tr '[:upper:]' '[:lower:]')
 
+echo "---"
+echo "Selected:"
+if [ "$install_code" = "y" ]; then echo "- Install: Visual Studio Code"; fi
+if [ "$install_audio" = "y" ]; then echo "- Install: Audio-suite"; fi
+if [ "$install_graphic" = "y" ]; then echo "- Install: Graphics-suite"; fi
+if [ "$install_sync" = "y" ]; then echo "- Install: SyncThing"; fi
+if [ "$install_zim" = "y" ]; then echo "- Install: Zim Desktop Wiki"; fi
+if [ "$install_rpimager" = "y" ]; then echo "- Install: Raspberry Pi Imager"; fi
+if [ "$install_chromium" = "y" ]; then echo "- Install: Chromium Browser"; fi
+if [ "$install_upgrade" = "y" ]; then echo "- Upgrade Packages"; fi
+
 read -r -p "Proceed? [y/N] " proceed
 proceed=$(echo $proceed | tr '[:upper:]' '[:lower:]')
 if [ "$proceed" != "y" ]; then
