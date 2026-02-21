@@ -138,8 +138,9 @@ gsettings set org.gnome.shell.extensions.dash-to-dock show-trash true
 gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3282
 
-# Mouse and Touchpad 
-#gsettings set org.gnome.desktop.peripherals.touchpad speed 0.3 # Accelerate a bit
+# Background
+gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/warty-final-ubuntu.png'
+gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/warty-final-ubuntu.png'
 
 # Nautilus
 gsettings set org.gnome.nautilus.preferences open-folder-on-dnd-hover true
