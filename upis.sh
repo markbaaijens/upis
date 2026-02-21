@@ -36,32 +36,32 @@ fi
 #
 # User dialog
 #
-echo "Choose what to install:"
-read -r -p "Telegram? [y/N] " install_telegram
+echo "Options:"
+read -r -p "- Install: Telegram? [y/N] " install_telegram
 install_telegram=$(echo $install_telegram | tr '[:upper:]' '[:lower:]')
 
-read -r -p "Visual Studio Code? [y/N] " install_code
+read -r -p "- Install: Visual Studio Code? [y/N] " install_code
 install_code=$(echo $install_code | tr '[:upper:]' '[:lower:]')
 
-read -r -p "Audio-suite (PuddleTag, SoundJuicer, Audacity, QuodLibet, SoundVisualiser, Flacon and Spek)? [y/N] " install_audio
+read -r -p "- Install: Audio-suite (PuddleTag, SoundJuicer, Audacity, QuodLibet, SoundVisualiser, Flacon and Spek)? [y/N] " install_audio
 install_audio=$(echo $install_audio | tr '[:upper:]' '[:lower:]')
 
-read -r -p "Graphic-suite (GIMP, Pinta, Inkscape)? [y/N] " install_graphic
+read -r -p "- Install: Graphic-suite (GIMP, Pinta, Inkscape)? [y/N] " install_graphic
 install_graphic=$(echo $install_graphic | tr '[:upper:]' '[:lower:]')
 
-read -r -p "SyncThing? [y/N] " install_sync
+read -r -p "- Install: SyncThing? [y/N] " install_sync
 install_sync=$(echo $install_sync | tr '[:upper:]' '[:lower:]')
 
-read -r -p "Zim desktop-wiki? [y/N] " install_zim
+read -r -p "- Install: Zim desktop-wiki? [y/N] " install_zim
 install_zim=$(echo $install_zim | tr '[:upper:]' '[:lower:]')
 
-read -r -p "Raspberry Pi-imager? [y/N] " install_rpimager
+read -r -p "- Install: Raspberry Pi-imager? [y/N] " install_rpimager
 install_rpimager=$(echo $install_rpimager | tr '[:upper:]' '[:lower:]')
 
-read -r -p "Chromium-browser? [y/N] " install_chromium
+read -r -p "- Install: Chromium-browser? [y/N] " install_chromium
 install_chromium=$(echo $install_chromium | tr '[:upper:]' '[:lower:]')
 
-read -r -p "Replace menu? [y/N] " install_menu
+read -r -p "- Replace menu? [y/N] " install_menu
 install_menu=$(echo $install_menu | tr '[:upper:]' '[:lower:]')
 
 echo "---"
@@ -207,7 +207,7 @@ fi
 
 if [ "$install_chromium" = "y" ]; then
     # Use chromium instead of chrome b/c chromium is available on arm, and chrome is not
-    sudo apt install chromium-browser
+    sudo snap install chromium-browser
 fi
 
 if [ "$install_zim" = "y" ]; then
@@ -238,20 +238,20 @@ sudo apt autoclean -y
 # Report
 #
 echo "---"
-echo "Upgraded all packages"
-echo "Installed: dconf-editor htop tree bwm-ng nmap"
-echo "Installed: gnome-shell-extension-manager"
-echo "Replaced Video's (Totem) by Celluloid"
-echo "Removed Rhythmbox (music is better played with Celluloid)"
+echo "(standard) Upgraded all packages"
+echo "(standard) Installed: dconf-editor htop tree bwm-ng nmap"
+echo "(standard) Installed: gnome-shell-extension-manager"
+echo "(standard) Replaced Video's (Totem) by Celluloid"
+echo "(standard) Removed Rhythmbox (music is better played with Celluloid)"
 
-if [ "$install_code" = "y" ]; then echo "Installed: Visual Studio Code"; fi
-if [ "$install_audio" = "y" ]; then echo "Installed: Audio-suite"; fi
-if [ "$install_graphic" = "y" ]; then echo "Installed: Graphics-suite"; fi
-if [ "$install_sync" = "y" ]; then echo "Installed: SyncThing"; fi
-if [ "$install_zim" = "y" ]; then echo "Installed: Zim Desktop Wiki"; fi
-if [ "$install_rpimager" = "y" ]; then echo "Installed: Raspberry Pi Imager"; fi
-if [ "$install_chromium" = "y" ]; then echo "Installed: Chromium Browser"; fi
-if [ "$install_menu" = "y" ]; then echo "- Menu replaced"; fi
+if [ "$install_code" = "y" ]; then echo "(option) Installed: Visual Studio Code"; fi
+if [ "$install_audio" = "y" ]; then echo "(option) Installed: Audio-suite"; fi
+if [ "$install_graphic" = "y" ]; then echo "(option) Installed: Graphics-suite"; fi
+if [ "$install_sync" = "y" ]; then echo "(option) Installed: SyncThing"; fi
+if [ "$install_zim" = "y" ]; then echo "(option) Installed: Zim Desktop Wiki"; fi
+if [ "$install_rpimager" = "y" ]; then echo "(option) Installed: Raspberry Pi Imager"; fi
+if [ "$install_chromium" = "y" ]; then echo "(option) Installed: Chromium Browser"; fi
+if [ "$install_menu" = "y" ]; then echo "(option)  Menu replaced"; fi
 
 if [ $warning_folder ]; then echo "Warning: Folder ~/Sjablonen is not present, installation language is not Dutch?"; fi
 
