@@ -76,7 +76,7 @@ if [ "$install_zim" = "y" ]; then echo "- Install: Zim Desktop Wiki"; fi
 if [ "$install_rpimager" = "y" ]; then echo "- Install: Raspberry Pi Imager"; fi
 if [ "$install_chromium" = "y" ]; then echo "- Install: Chromium Browser"; fi
 
-read -r -p "Proceed? [y/N] " proceed
+read -r -p "Proceed (you will be asked for your password when procedding)? [y/N] " proceed
 proceed=$(echo $proceed | tr '[:upper:]' '[:lower:]')
 if [ "$proceed" != "y" ]; then
     exit
@@ -241,20 +241,23 @@ sudo apt autoclean -y
 # Report
 #
 echo "---"
-echo "(standard) Upgraded all packages"
-echo "(standard) Installed: dconf-editor htop tree bwm-ng nmap"
-echo "(standard) Installed: gnome-shell-extension-manager"
-echo "(standard) Replaced Video's (Totem) by Celluloid"
-echo "(standard) Removed Rhythmbox (music is better played with Celluloid)"
+echo "Standard:"
+echo "- Modified settngs for: Interface, Date, Dock, Nightmode, Nautilus"
+echo "- Upgraded all packages"
+echo "- Installed: dconf-editor htop tree bwm-ng nmap"
+echo "- Installed: gnome-shell-extension-manager"
+echo "- Replaced Video's (Totem) by Celluloid"
+echo "- Removed Rhythmbox (music is better played with Celluloid)"
 
-if [ "$install_menu" = "y" ]; then echo "(option) Menu replaced"; fi
-if [ "$install_code" = "y" ]; then echo "(option) Installed: Visual Studio Code"; fi
-if [ "$install_audio" = "y" ]; then echo "(option) Installed: Audio-suite"; fi
-if [ "$install_graphic" = "y" ]; then echo "(option) Installed: Graphics-suite"; fi
-if [ "$install_sync" = "y" ]; then echo "(option) Installed: SyncThing"; fi
-if [ "$install_zim" = "y" ]; then echo "(option) Installed: Zim Desktop Wiki"; fi
-if [ "$install_rpimager" = "y" ]; then echo "(option) Installed: Raspberry Pi Imager"; fi
-if [ "$install_chromium" = "y" ]; then echo "(option) Installed: Chromium Browser"; fi
+echo "Optional:"
+if [ "$install_menu" = "y" ]; then echo "- Menu replaced"; fi
+if [ "$install_code" = "y" ]; then echo "- Installed: Visual Studio Code"; fi
+if [ "$install_audio" = "y" ]; then echo "- Installed: Audio-suite"; fi
+if [ "$install_graphic" = "y" ]; then echo "- Installed: Graphics-suite"; fi
+if [ "$install_sync" = "y" ]; then echo "- Installed: SyncThing"; fi
+if [ "$install_zim" = "y" ]; then echo "- Installed: Zim Desktop Wiki"; fi
+if [ "$install_rpimager" = "y" ]; then echo "- Installed: Raspberry Pi Imager"; fi
+if [ "$install_chromium" = "y" ]; then echo "- Installed: Chromium Browser"; fi
 
 if [ $warning_folder ]; then echo "Warning: Folder ~/Sjablonen is not present, installation language is not Dutch?"; fi
 
