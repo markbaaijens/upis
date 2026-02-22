@@ -173,11 +173,15 @@ sudo apt -qq install dconf-editor htop tree bwm-ng nmap -y
 sudo apt -qq install gnome-shell-extension-manager -y
 
 # Replace Video's (Totem) by Celluloid
-sudo apt purge totem totem-plugins -y
+if [ "$(dpkg --get-selections | grep "\btotem\b")" ]; then
+    sudo apt purge totem -y
+fi
 sudo apt -qq install celluloid -y
 
 # Remove rhythmbox; music is better played with celluloid
-sudo apt remove rhythmbox -y
+if [ "$(dpkg --get-selections | grep "\brhythmbox\b")" ]; then
+    sudo apt remove rhythmbox -y
+fi
 
 if [ "$install_audio" = "y" ]; then
     sudo apt -qq install puddletag -y
