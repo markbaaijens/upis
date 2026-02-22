@@ -8,10 +8,18 @@ sudo dpkg -i code_1.95.2-1730980375_arm64.deb
     * weather o'clock
 * background
   * copy additional backgrounds so that they are available => /usr/share/backgrounds
+  * change default background to the final one
 * implement cleansnaps
-* Settings, Search: only files + settings
-    gsettings set org.gnome.desktop.search-providers disabled ['org.gnome.Calculator.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.seahorse.Application.desktop', 'org.gnome.clocks.desktop', 'org.gnome.Calendar.desktop']
-    => command does not work
+* Firefox: install uBlock Origin-addon
+  https://askubuntu.com/questions/73474/how-to-install-firefox-addon-from-command-line-in-scripts
+  * download latest version:
+    wget https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi -O ublock-latest.xpi
+
+    unzip ublock-latest.xpi
+    rm ublock-latest.xpi
+    cat install.rdf
+    => not found! Documentation has been aged...
+  
 
 Research
 * flacon
