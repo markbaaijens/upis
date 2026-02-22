@@ -97,7 +97,7 @@ sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 
 # Commented out b/c zram-config is not working correctly on arm64
 # Use zram = compressed memory (advantage when in low memory)
-#sudo apt install zram-config -y
+#sudo apt -qq install zram-config -y
 #sudo systemctl enable zram-config
 #sudo systemctl start zram-config
 
@@ -163,32 +163,32 @@ gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
 #
 
 # Update first otherwise subsequent installs will not work on a fresh system
-sudo apt update -y  
+sudo apt -qq update -y  
 
 # Several basic packages
-sudo apt install dconf-editor htop tree bwm-ng nmap -y
+sudo apt -qq install dconf-editor htop tree bwm-ng nmap -y
 
 # Note. Package gnome-shell-extensions does slightly the same (showing gnome-extensions), 
 # though you cannot new extensions through browsing
-sudo apt install gnome-shell-extension-manager -y
+sudo apt -qq install gnome-shell-extension-manager -y
 
 # Replace Video's (Totem) by Celluloid
 sudo apt purge totem totem-plugins -y
-sudo apt install celluloid -y
+sudo apt -qq install celluloid -y
 
 # Remove rhythmbox; music is better played with celluloid
 sudo apt remove rhythmbox -y
 
 if [ "$install_audio" = "y" ]; then
-    sudo apt install puddletag -y
-    sudo apt install sound-juicer -y
-    sudo apt install audacity -y
-    sudo apt install quodlibet -y
-    sudo apt install sonic-visualiser -y
+    sudo apt -qq install puddletag -y
+    sudo apt -qq install sound-juicer -y
+    sudo apt -qq install audacity -y
+    sudo apt -qq install quodlibet -y
+    sudo apt -qq install sonic-visualiser -y
 
     # Snap from flacon-tabetai does not start
     sudo add-apt-repository ppa:flacon -y
-    sudo apt install flacon -y
+    sudo apt -qq install flacon -y
 
     sudo snap install spek
 fi
@@ -210,12 +210,12 @@ if [ "$install_code" = "y" ]; then
 fi
 
 if [ "$install_sync" = "y" ]; then
-    sudo apt install curl apt-transport-https
+    sudo apt -qq install curl apt-transport-https
     sudo mkdir -p /etc/apt/keyrings
     sudo curl -L -o /etc/apt/keyrings/syncthing-archive-keyring.gpg https://syncthing.net/release-key.gpg
     echo "deb https://apt.syncthing.net/ syncthing stable" | sudo tee /etc/apt/sources.list.d/syncthing.list
     sudo apt update
-    sudo apt install syncthing
+    sudo apt -qq install syncthing
 fi
 
 if [ "$install_chromium" = "y" ]; then
@@ -224,11 +224,11 @@ if [ "$install_chromium" = "y" ]; then
 fi
 
 if [ "$install_zim" = "y" ]; then
-    sudo apt install zim -y
+    sudo apt -qq install zim -y
 fi
 
 if [ "$install_rpimager" = "y" ]; then
-     sudo apt install rpi-imager -y
+     sudo apt -qq install rpi-imager -y
 fi
 
 if [ "$install_menu" = "y" ]; then
@@ -239,13 +239,13 @@ fi
 # Finishing up
 #
 
-sudo apt install $(check-language-support -l nl) -y
-sudo apt install $(check-language-support -l uk) -y
+sudo apt -qq install $(check-language-support -l nl) -y
+sudo apt -qq install $(check-language-support -l uk) -y
 sudo apt dist-upgrade -y
 sudo snap refresh
 
-sudo apt autoremove -y
-sudo apt autoclean -y
+sudo apt -qq autoremove -y
+sudo apt -qq autoclean -y
 
 #
 # Report
