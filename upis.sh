@@ -41,6 +41,9 @@ echo "Options:"
 read -r -p "- Replace menu? [y/N] " install_menu
 install_menu=$(echo $install_menu | tr '[:upper:]' '[:lower:]')
 
+read -r -p "- Replace background? [y/N] " install_background
+install_background=$(echo $install_background | tr '[:upper:]' '[:lower:]')
+
 read -r -p "- Install: Telegram? [y/N] " install_telegram
 install_telegram=$(echo $install_telegram | tr '[:upper:]' '[:lower:]')
 
@@ -68,6 +71,7 @@ install_chromium=$(echo $install_chromium | tr '[:upper:]' '[:lower:]')
 echo "---"
 echo "Selected:"
 if [ "$install_menu" = "y" ]; then echo "- Replace menu"; fi
+if [ "$install_background" = "y" ]; then echo "- Replace background"; fi
 if [ "$install_code" = "y" ]; then echo "- Install: Visual Studio Code"; fi
 if [ "$install_audio" = "y" ]; then echo "- Install: Audio-suite"; fi
 if [ "$install_graphic" = "y" ]; then echo "- Install: Graphics-suite"; fi
@@ -142,8 +146,10 @@ gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 32
 wget https://raw.githubusercontent.com/markbaaijens/upis/master/backgrounds/ubuntu_dark.jpg -O /tmp/ubuntu_dark.jpg
 sudo mv /tmp/ubuntu_dark.jpg /usr/share/backgrounds/
 
-gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/ubuntu_dark.jpg'
-gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/ubuntu_dark.jpg'
+if [ "$install_background" = "y" ]; then
+    gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/ubuntu_dark.jpg'
+    gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/ubuntu_dark.jpg'
+fi
 
 # Nautilus
 gsettings set org.gnome.nautilus.preferences open-folder-on-dnd-hover true
@@ -255,6 +261,7 @@ echo "- Removed Rhythmbox (music is better played with Celluloid)"
 
 echo "Optional:"
 if [ "$install_menu" = "y" ]; then echo "- Menu replaced"; fi
+if [ "$install_background" = "y" ]; then echo "- Background replaced"; fi
 if [ "$install_code" = "y" ]; then echo "- Installed: Visual Studio Code"; fi
 if [ "$install_audio" = "y" ]; then echo "- Installed: Audio-suite"; fi
 if [ "$install_graphic" = "y" ]; then echo "- Installed: Graphics-suite"; fi
