@@ -139,7 +139,7 @@ gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3282
 
 # Background
-wget https://raw.githubusercontent.com/markbaaijens/upis/master/backgrounds/ubuntu_dark.jpg -o /tmp/ubuntu_dark.jpg
+wget https://raw.githubusercontent.com/markbaaijens/upis/master/backgrounds/ubuntu_dark.jpg -O /tmp/ubuntu_dark.jpg
 sudo mv /tmp/ubuntu_dark.jpg /usr/share/backgrounds/
 
 gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/ubuntu_dark.jpg'
