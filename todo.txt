@@ -7,11 +7,11 @@ sudo dpkg -i code_1.95.2-1730980375_arm64.deb
   * specific extensions:
     * weather o'clock
 * background
-  * copy backgrounds so that they are available from <owndrive> => /usr/share/backgrounds
-  * load branded background from /usr/share/backgrounds  
-
+  * copy additional backgrounds so that they are available => /usr/share/backgrounds
+* implement cleansnaps
 * Settings, Search: only files + settings
     gsettings set org.gnome.desktop.search-providers disabled ['org.gnome.Calculator.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.seahorse.Application.desktop', 'org.gnome.clocks.desktop', 'org.gnome.Calendar.desktop']
+    => command does not work
 
 Research
 * flacon

@@ -158,6 +158,9 @@ gsettings set org.gnome.nautilus.preferences show-delete-permanently true
 gsettings set org.gnome.nautilus.preferences show-directory-item-counts 'always'
 gsettings set org.gnome.nautilus.preferences show-image-thumbnails 'always'
 
+# Minimize search
+gsettings set org.gnome.desktop.search-providers disabled "['org.gnome.Calculator.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.seahorse.Application.desktop', 'org.gnome.clocks.desktop', 'org.gnome.Calendar.desktop']"
+
 #
 # Packages 
 #
