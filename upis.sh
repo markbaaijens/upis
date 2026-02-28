@@ -38,7 +38,7 @@ fi
 #
 echo "Options:"
 
-read -r -p "- Replace menu? [y/N] " install_menu
+read -r -p "- Reset menu? [y/N] " install_menu
 install_menu=$(echo $install_menu | tr '[:upper:]' '[:lower:]')
 
 read -r -p "- Replace background? [y/N] " install_background
@@ -70,7 +70,7 @@ install_chromium=$(echo $install_chromium | tr '[:upper:]' '[:lower:]')
 
 echo "---"
 echo "Selected:"
-if [ "$install_menu" = "y" ]; then echo "- Replace menu"; fi
+if [ "$install_menu" = "y" ]; then echo "- Reset menu"; fi
 if [ "$install_background" = "y" ]; then echo "- Replace background"; fi
 if [ "$install_code" = "y" ]; then echo "- Install: Visual Studio Code"; fi
 if [ "$install_audio" = "y" ]; then echo "- Install: Audio-suite"; fi
@@ -143,10 +143,10 @@ gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3282
 
 # Background
-wget https://raw.githubusercontent.com/markbaaijens/upis/master/backgrounds/ubuntu-dark.jpg -O /tmp/ubuntu-dark.jpg
+wget https://raw.githubusercontent.com/markbaaijens/upis/master/backgrounds/ubuntu-dark.jpg -nv -O /tmp/ubuntu-dark.jpg
 sudo mv /tmp/ubuntu-dark.jpg /usr/share/backgrounds/
 
-wget https://raw.githubusercontent.com/markbaaijens/upis/master/backgrounds/ubuntu-blue.jpg -O /tmp/ubuntu-blue.jpg
+wget https://raw.githubusercontent.com/markbaaijens/upis/master/backgrounds/ubuntu-blue.jpg -nv -O /tmp/ubuntu-blue.jpg
 sudo mv /tmp/ubuntu-blue.jpg /usr/share/backgrounds/
 
 if [ "$install_background" = "y" ]; then
@@ -169,6 +169,7 @@ gsettings set org.gnome.desktop.search-providers disabled "['org.gnome.Calculato
 #
 
 # Update first otherwise subsequent installs will not work on a fresh system
+echo "Updating packages..."
 sudo apt -qq update -y  
 
 # Several basic packages
@@ -270,7 +271,7 @@ echo "- Replaced Video's (Totem) by Celluloid"
 echo "- Removed Rhythmbox (music is better played with Celluloid)"
 
 echo "Optional:"
-if [ "$install_menu" = "y" ]; then echo "- Menu replaced"; fi
+if [ "$install_menu" = "y" ]; then echo "- Menu reset"; fi
 if [ "$install_background" = "y" ]; then echo "- Background replaced"; fi
 if [ "$install_code" = "y" ]; then echo "- Installed: Visual Studio Code"; fi
 if [ "$install_audio" = "y" ]; then echo "- Installed: Audio-suite"; fi
