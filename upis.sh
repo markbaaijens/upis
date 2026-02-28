@@ -38,12 +38,12 @@ fi
 mem_human=$(free -h | grep 'Mem:' | awk '{print $2}')
 
 echo "System" 
-echo "- Desktop: $desktop"
-echo "- Architecture: $architecture"
+echo "- desktop: $desktop"
+echo "- architecture: $architecture"
 if [ $mem_low = 1 ]; then
-    echo "- Memory: $mem_human (low on memory)"
+    echo "- memory: $mem_human (low on memory)"
 else
-    echo "- Memory: $mem_human"
+    echo "- memory: $mem_human"
 fi
 
 # Check for supported desktop(s)
@@ -55,59 +55,59 @@ fi
 #
 # User dialog
 #
-echo "Select options:"
+echo "Select options..."
 
-read -r -p "- Reset menu? [y/N] " install_menu
+read -r -p "- reset menu? [y/N] " install_menu
 install_menu=$(echo $install_menu | tr '[:upper:]' '[:lower:]')
 
-read -r -p "- Replace background? [y/N] " install_background
+read -r -p "- replace background? [y/N] " install_background
 install_background=$(echo $install_background | tr '[:upper:]' '[:lower:]')
 
-read -r -p "- Install: Telegram? [y/N] " install_telegram
+read -r -p "- install: Telegram? [y/N] " install_telegram
 install_telegram=$(echo $install_telegram | tr '[:upper:]' '[:lower:]')
 
-read -r -p "- Install: Visual Studio Code? [y/N] " install_code
+read -r -p "- install: Visual Studio Code? [y/N] " install_code
 install_code=$(echo $install_code | tr '[:upper:]' '[:lower:]')
 
-read -r -p "- Install: Audio-suite (PuddleTag, SoundJuicer, Audacity, QuodLibet, SoundVisualiser, Flacon and Spek)? [y/N] " install_audio
+read -r -p "- install: Audio-suite (PuddleTag, SoundJuicer, Audacity, QuodLibet, SoundVisualiser, Flacon and Spek)? [y/N] " install_audio
 install_audio=$(echo $install_audio | tr '[:upper:]' '[:lower:]')
 
-read -r -p "- Install: Graphic-suite (GIMP, Pinta, Inkscape)? [y/N] " install_graphic
+read -r -p "- install: Graphic-suite (GIMP, Pinta, Inkscape)? [y/N] " install_graphic
 install_graphic=$(echo $install_graphic | tr '[:upper:]' '[:lower:]')
 
-read -r -p "- Install: SyncThing? [y/N] " install_sync
+read -r -p "- install: SyncThing? [y/N] " install_sync
 install_sync=$(echo $install_sync | tr '[:upper:]' '[:lower:]')
 
-read -r -p "- Install: Zim desktop-wiki? [y/N] " install_zim
+read -r -p "- install: Zim desktop-wiki? [y/N] " install_zim
 install_zim=$(echo $install_zim | tr '[:upper:]' '[:lower:]')
 
-read -r -p "- Install: Raspberry Pi-imager? [y/N] " install_rpimager
+read -r -p "- install: Raspberry Pi-imager? [y/N] " install_rpimager
 install_rpimager=$(echo $install_rpimager | tr '[:upper:]' '[:lower:]')
 
-read -r -p "- Install: Chromium-browser? [y/N] " install_chromium
+read -r -p "- install: Chromium-browser? [y/N] " install_chromium
 install_chromium=$(echo $install_chromium | tr '[:upper:]' '[:lower:]')
 
 echo "This script is ready to run, the following will be done:"
-echo "- Standard"
-echo "  - Modify settngs for: Interface, Date, Dock, Nightmode, Nautilus"
-echo "  - Upgrade all packages"
-echo "  - Install: dconf-editor htop tree bwm-ng nmap"
-echo "  - Install: gnome-shell-extension-manager"
-echo "  - Replace Video (Totem) by Celluloid"
-echo "  - Remove Rhythmbox (music is better played with Celluloid)"
+echo "- standard"
+echo "  - modify settngs for: Interface, Date, Dock, Nightmode, Nautilus"
+echo "  - upgrade all packages"
+echo "  - install: dconf-editor htop tree bwm-ng nmap"
+echo "  - install: gnome-shell-extension-manager"
+echo "  - replace Video (Totem) by Celluloid"
+echo "  - remove Rhythmbox (music is better played with Celluloid)"
 
-echo "- Optional"
-if [ "$install_menu" = "y" ]; then echo "  - Reset menu"; fi
-if [ "$install_background" = "y" ]; then echo "  - Replace background"; fi
-if [ "$install_code" = "y" ]; then echo "  - Install: Visual Studio Code"; fi
-if [ "$install_audio" = "y" ]; then echo "  - Install: Audio-suite"; fi
-if [ "$install_graphic" = "y" ]; then echo "  - Install: Graphics-suite"; fi
-if [ "$install_sync" = "y" ]; then echo "  - Install: SyncThing"; fi
-if [ "$install_zim" = "y" ]; then echo "  - Install: Zim Desktop Wiki"; fi
-if [ "$install_rpimager" = "y" ]; then echo "  - Install: Raspberry Pi Imager"; fi
-if [ "$install_chromium" = "y" ]; then echo "  - Install: Chromium Browser"; fi
+echo "- optional"
+if [ "$install_menu" = "y" ]; then echo "  - reset menu"; fi
+if [ "$install_background" = "y" ]; then echo "  - replace background"; fi
+if [ "$install_code" = "y" ]; then echo "  - install: Visual Studio Code"; fi
+if [ "$install_audio" = "y" ]; then echo "  - install: Audio-suite"; fi
+if [ "$install_graphic" = "y" ]; then echo "  - install: Graphics-suite"; fi
+if [ "$install_sync" = "y" ]; then echo "  - install: SyncThing"; fi
+if [ "$install_zim" = "y" ]; then echo "  - install: Zim Desktop Wiki"; fi
+if [ "$install_rpimager" = "y" ]; then echo "  - install: Raspberry Pi Imager"; fi
+if [ "$install_chromium" = "y" ]; then echo "  - install: Chromium Browser"; fi
 
-read -r -p "Proceed (you will be asked for your password when procedding)? [y/N] " proceed
+read -r -p "Proceed (you will be asked for your password when proceeding)? [y/N] " proceed
 proceed=$(echo $proceed | tr '[:upper:]' '[:lower:]')
 if [ "$proceed" != "y" ]; then
     exit
@@ -292,25 +292,28 @@ sudo apt -qq autoclean -y
 #
 # Report
 #
-echo "Finished, the following has been done:"
-echo "- Standard:"
-echo "  - Modified settngs for: Interface, Date, Dock, Nightmode, Nautilus"
-echo "  - Upgraded all packages"
-echo "  - Installed: dconf-editor htop tree bwm-ng nmap"
-echo "  - Installed: gnome-shell-extension-manager"
-echo "  - Replaced Video (Totem) by Celluloid"
-echo "  - Removed Rhythmbox (music is better played with Celluloid)"
+echo "Finished, the following has been done..."
+echo "- standard"
+echo "  - modified settngs for: Interface, Date, Dock, Nightmode, Nautilus"
+echo "  - upgraded all packages"
+echo "  - installed: dconf-editor htop tree bwm-ng nmap"
+echo "  - installed: gnome-shell-extension-manager"
+echo "  - replaced Video (Totem) by Celluloid"
+echo "  - removed Rhythmbox (music is better played with Celluloid)"
 
-echo "- Optional:"
-if [ "$install_menu" = "y" ]; then echo "  - Menu reset"; fi
-if [ "$install_background" = "y" ]; then echo "  - Background replaced"; fi
-if [ "$install_code" = "y" ]; then echo "  - Installed: Visual Studio Code"; fi
-if [ "$install_audio" = "y" ]; then echo "  - Installed: Audio-suite"; fi
-if [ "$install_graphic" = "y" ]; then echo "  - Installed: Graphics-suite"; fi
-if [ "$install_sync" = "y" ]; then echo "  - Installed: SyncThing"; fi
-if [ "$install_zim" = "y" ]; then echo "  - Installed: Zim Desktop Wiki"; fi
-if [ "$install_rpimager" = "y" ]; then echo "  - Installed: Raspberry Pi Imager"; fi
-if [ "$install_chromium" = "y" ]; then echo "  - Installed: Chromium Browser"; fi
+echo "- optional"
+if [ "$install_menu" = "y" ]; then echo "  - menu reset"; fi
+if [ "$install_background" = "y" ]; then echo "  - background replaced"; fi
+if [ "$install_code" = "y" ]; then echo "  - installed: Visual Studio Code"; fi
+if [ "$install_audio" = "y" ]; then echo "  - installed: Audio-suite"; fi
+if [ "$install_graphic" = "y" ]; then echo "  - installed: Graphics-suite"; fi
+if [ "$install_sync" = "y" ]; then echo "  - installed: SyncThing"; fi
+if [ "$install_zim" = "y" ]; then echo "  - installed: Zim Desktop Wiki"; fi
+if [ "$install_rpimager" = "y" ]; then echo "  - installed: Raspberry Pi Imager"; fi
+if [ "$install_chromium" = "y" ]; then echo "  - installed: Chromium Browser"; fi
 
 if [ $warning_folder ]; then echo "Warning: Folder ~/Sjablonen is not present, installation language is not Dutch?"; fi
+echo "Post-install"
+echo "- install ad-blocker uBlock Origin-plugin in Firefox"
+
 
