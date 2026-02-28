@@ -24,6 +24,8 @@ if [ -n "$(whoami | grep root)" ]; then
     exit 1    
 fi
 
+desktop=$(echo $DESKTOP_SESSION | tr '[:upper:]' '[:lower:]')
+
 architecture="x86"
 if [ $(uname -a | grep aarch64) ]; then
     architecture="arm"
@@ -45,7 +47,6 @@ else
 fi
 
 # Check for supported desktop(s)
-desktop=$(echo $DESKTOP_SESSION | tr '[:upper:]' '[:lower:]')
 if [ "$desktop" != "ubuntu" ]; then
     echo "No supported desktop found."
     exit 1      
