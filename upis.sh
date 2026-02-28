@@ -68,17 +68,25 @@ install_rpimager=$(echo $install_rpimager | tr '[:upper:]' '[:lower:]')
 read -r -p "- Install: Chromium-browser? [y/N] " install_chromium
 install_chromium=$(echo $install_chromium | tr '[:upper:]' '[:lower:]')
 
-echo "---"
-echo "Selected:"
-if [ "$install_menu" = "y" ]; then echo "- Reset menu"; fi
-if [ "$install_background" = "y" ]; then echo "- Replace background"; fi
-if [ "$install_code" = "y" ]; then echo "- Install: Visual Studio Code"; fi
-if [ "$install_audio" = "y" ]; then echo "- Install: Audio-suite"; fi
-if [ "$install_graphic" = "y" ]; then echo "- Install: Graphics-suite"; fi
-if [ "$install_sync" = "y" ]; then echo "- Install: SyncThing"; fi
-if [ "$install_zim" = "y" ]; then echo "- Install: Zim Desktop Wiki"; fi
-if [ "$install_rpimager" = "y" ]; then echo "- Install: Raspberry Pi Imager"; fi
-if [ "$install_chromium" = "y" ]; then echo "- Install: Chromium Browser"; fi
+echo "This script is ready to run, the following will be done:"
+echo "- Standard"
+echo "  - Modify settngs for: Interface, Date, Dock, Nightmode, Nautilus"
+echo "  - Upgrade all packages"
+echo "  - Install: dconf-editor htop tree bwm-ng nmap"
+echo "  - Install: gnome-shell-extension-manager"
+echo "  - Replace Video (Totem) by Celluloid"
+echo "  - Remove Rhythmbox (music is better played with Celluloid)"
+
+echo "- Optional"
+if [ "$install_menu" = "y" ]; then echo "  - Reset menu"; fi
+if [ "$install_background" = "y" ]; then echo "  - Replace background"; fi
+if [ "$install_code" = "y" ]; then echo "  - Install: Visual Studio Code"; fi
+if [ "$install_audio" = "y" ]; then echo "  - Install: Audio-suite"; fi
+if [ "$install_graphic" = "y" ]; then echo "  - Install: Graphics-suite"; fi
+if [ "$install_sync" = "y" ]; then echo "  - Install: SyncThing"; fi
+if [ "$install_zim" = "y" ]; then echo "  - Install: Zim Desktop Wiki"; fi
+if [ "$install_rpimager" = "y" ]; then echo "  - Install: Raspberry Pi Imager"; fi
+if [ "$install_chromium" = "y" ]; then echo "  - Install: Chromium Browser"; fi
 
 read -r -p "Proceed (you will be asked for your password when procedding)? [y/N] " proceed
 proceed=$(echo $proceed | tr '[:upper:]' '[:lower:]')
@@ -143,11 +151,15 @@ gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3282
 
 # Background
-wget https://raw.githubusercontent.com/markbaaijens/upis/master/backgrounds/ubuntu-dark.jpg -nv -O /tmp/ubuntu-dark.jpg
+upis_url="https://raw.githubusercontent.com/markbaaijens/upis/master"
+wget $upis_url/backgrounds/ubuntu-dark.jpg -nv -O /tmp/ubuntu-dark.jpg
 sudo mv /tmp/ubuntu-dark.jpg /usr/share/backgrounds/
 
-wget https://raw.githubusercontent.com/markbaaijens/upis/master/backgrounds/ubuntu-blue.jpg -nv -O /tmp/ubuntu-blue.jpg
+wget $upis_url/backgrounds/ubuntu-blue.jpg -nv -O /tmp/ubuntu-blue.jpg
 sudo mv /tmp/ubuntu-blue.jpg /usr/share/backgrounds/
+
+wget $upis_url/backgrounds/custom-wallpapers.xml -nv -O /tmp/custom-wallpapers.xml
+sudo mv /tmp/custom-wallpapers.xml /usr/share/gnome-background-properties
 
 if [ "$install_background" = "y" ]; then
     gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/ubuntu-blue.jpg'
@@ -261,25 +273,25 @@ sudo apt -qq autoclean -y
 #
 # Report
 #
-echo "---"
-echo "Standard:"
-echo "- Modified settngs for: Interface, Date, Dock, Nightmode, Nautilus"
-echo "- Upgraded all packages"
-echo "- Installed: dconf-editor htop tree bwm-ng nmap"
-echo "- Installed: gnome-shell-extension-manager"
-echo "- Replaced Video's (Totem) by Celluloid"
-echo "- Removed Rhythmbox (music is better played with Celluloid)"
+echo "Finished, the following has been done:"
+echo "- Standard:"
+echo "  - Modified settngs for: Interface, Date, Dock, Nightmode, Nautilus"
+echo "  - Upgraded all packages"
+echo "  - Installed: dconf-editor htop tree bwm-ng nmap"
+echo "  - Installed: gnome-shell-extension-manager"
+echo "  - Replaced Video (Totem) by Celluloid"
+echo "  - Removed Rhythmbox (music is better played with Celluloid)"
 
-echo "Optional:"
-if [ "$install_menu" = "y" ]; then echo "- Menu reset"; fi
-if [ "$install_background" = "y" ]; then echo "- Background replaced"; fi
-if [ "$install_code" = "y" ]; then echo "- Installed: Visual Studio Code"; fi
-if [ "$install_audio" = "y" ]; then echo "- Installed: Audio-suite"; fi
-if [ "$install_graphic" = "y" ]; then echo "- Installed: Graphics-suite"; fi
-if [ "$install_sync" = "y" ]; then echo "- Installed: SyncThing"; fi
-if [ "$install_zim" = "y" ]; then echo "- Installed: Zim Desktop Wiki"; fi
-if [ "$install_rpimager" = "y" ]; then echo "- Installed: Raspberry Pi Imager"; fi
-if [ "$install_chromium" = "y" ]; then echo "- Installed: Chromium Browser"; fi
+echo "- Optional:"
+if [ "$install_menu" = "y" ]; then echo "  - Menu reset"; fi
+if [ "$install_background" = "y" ]; then echo "  - Background replaced"; fi
+if [ "$install_code" = "y" ]; then echo "  - Installed: Visual Studio Code"; fi
+if [ "$install_audio" = "y" ]; then echo "  - Installed: Audio-suite"; fi
+if [ "$install_graphic" = "y" ]; then echo "  - Installed: Graphics-suite"; fi
+if [ "$install_sync" = "y" ]; then echo "  - Installed: SyncThing"; fi
+if [ "$install_zim" = "y" ]; then echo "  - Installed: Zim Desktop Wiki"; fi
+if [ "$install_rpimager" = "y" ]; then echo "  - Installed: Raspberry Pi Imager"; fi
+if [ "$install_chromium" = "y" ]; then echo "  - Installed: Chromium Browser"; fi
 
 if [ $warning_folder ]; then echo "Warning: Folder ~/Sjablonen is not present, installation language is not Dutch?"; fi
 
