@@ -66,8 +66,12 @@ install_background=$(echo $install_background | tr '[:upper:]' '[:lower:]')
 read -r -p "- install: Telegram? [y/N] " install_telegram
 install_telegram=$(echo $install_telegram | tr '[:upper:]' '[:lower:]')
 
-read -r -p "- install: Visual Studio Code? [y/N] " install_code
-install_code=$(echo $install_code | tr '[:upper:]' '[:lower:]')
+if [ "$architecture" = "x86" ];then
+    read -r -p "- install: Visual Studio Code? [y/N] " install_code
+    install_code=$(echo $install_code | tr '[:upper:]' '[:lower:]')
+else
+    echo "- (skipped) install: Visual Studio Code => not available on arm"
+fi
 
 read -r -p "- install: Audio-suite (PuddleTag, SoundJuicer, Audacity, QuodLibet, SoundVisualiser, Flacon and Spek)? [y/N] " install_audio
 install_audio=$(echo $install_audio | tr '[:upper:]' '[:lower:]')
@@ -246,9 +250,7 @@ if [ "$install_telegram" = "y" ]; then
 fi
 
 if [ "$install_code" = "y" ]; then
-    if [ "$(uname -a | grep x86_64)" ]; then
-        sudo snap install --classic code
-    fi
+    sudo snap install --classic code
 fi
 
 if [ "$install_sync" = "y" ]; then
