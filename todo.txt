@@ -1,3 +1,8 @@
+- zram for non arm-architectures + memory < 4 GB
+- block install some packages when on arm
+  - code
+  - ...
+
 - LibreOffice
   - Beeld, Gebruikersinterface: Tabbladen
   - Beeld, Menubalk: aan
@@ -16,9 +21,6 @@ sudo dpkg -i code_1.95.2-1730980375_arm64.deb
 * extensions on GNOME
   * specific extensions:
     * weather o'clock
-* background
-  * copy additional backgrounds so that they are available => /usr/share/backgrounds
-  * change default background to the final one
 * implement cleansnaps
 * Firefox: install uBlock Origin-addon
   https://askubuntu.com/questions/73474/how-to-install-firefox-addon-from-command-line-in-scripts
@@ -29,12 +31,9 @@ sudo dpkg -i code_1.95.2-1730980375_arm64.deb
     rm ublock-latest.xpi
     cat install.rdf
     => not found! Documentation has been aged...
-  
 
 Research
 * flacon
   *  on arm
   * snap from flacon-tabetai does not start
 * VS Code on arm
-* syncting: PPA or snap
-  * sudo snap install syncthing-arubislander'

@@ -19,24 +19,42 @@
 #
 
 # Script must NOT be executed as root b/c otherwise some user settings end up in the root domain
-if [ -n "$(whoami | grep root)" ]
-then
-  echo "Running as root. Exiting"
-  exit 1    
+if [ -n "$(whoami | grep root)" ]; then
+    echo "Running as root. Exiting"
+    exit 1    
+fi
+
+architecture="x86"
+if [ $(uname -a | grep aarch64) ]; then
+    architecture="arm"
+fi
+
+mem_low=0
+if [ "$(free | grep 'Mem:' | awk '{print $2}')" -lt "4000000" ]; then
+    mem_low=1
+fi
+mem_human=$(free -h | grep 'Mem:' | awk '{print $2}')
+
+echo "System" 
+echo "- Desktop: $desktop"
+echo "- Architecture: $architecture"
+if [ $mem_low = 1 ]; then
+    echo "- Memory: $mem_human (low on memory)"
+else
+    echo "- Memory: $mem_human"
 fi
 
 # Check for supported desktop(s)
 desktop=$(echo $DESKTOP_SESSION | tr '[:upper:]' '[:lower:]')
-if [ "$desktop" != "ubuntu" ]
-then
-  echo "No supported desktop found."
-  exit 1      
+if [ "$desktop" != "ubuntu" ]; then
+    echo "No supported desktop found."
+    exit 1      
 fi
 
 #
 # User dialog
 #
-echo "Options:"
+echo "Select options:"
 
 read -r -p "- Reset menu? [y/N] " install_menu
 install_menu=$(echo $install_menu | tr '[:upper:]' '[:lower:]')
