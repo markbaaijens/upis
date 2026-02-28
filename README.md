@@ -8,12 +8,10 @@ Script for post-install operations after a clean Ubuntu-installation. This scrip
 - script should be run by a 'normal' user, no root (password will be asked during execution)
 
 ## Usage
-> Download script ...and make it executable  
+Download script ...and make it executable:
 
 `wget https://raw.githubusercontent.com/markbaaijens/upis/master/upis.sh -O upis.sh && chmod +x upis.sh`  
 
-> Optionally: check the contents of the script, discard what is not needed or wanted, then save the file  
-
-> Execute the script
+Execute the script:
 
 `./upis.sh` 
