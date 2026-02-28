@@ -1,3 +1,13 @@
+- LibreOffice
+  - Beeld, Gebruikersinterface: Tabbladen
+  - Beeld, Menubalk: aan
+  - Extra, Opties, LibreOffice, Beeld, Pictogramthema: Calibre (svg)
+  - Extra, Opties, Laden/opslaan, 
+    - Docomenttype: Tekstdocumenten (Writer): Altijd opslaan als: Word 2010-365-document (*.docx)
+    - Docomenttype: Werkbladen (Calc)): Altijd opslaan als: Excel 2007-365 (*.xlsx)
+    - Docomenttype: Presentatie (Impress)): Altijd opslaan als: PowerPoint 2007-365 (*.xlsx)
+    - Bij niet opslaan ODF- of standaardindeling waarschuwen: uit
+
 - removable media => link audio-cd to sound-juicer
 - VS Code not installed on ARM
 wget https://vscode.download.prss.microsoft.com/dbazure/download/stable/e8653663e8840adaf45af01eab5c627a5af81807/code_1.95.2-1730980375_arm64.deb

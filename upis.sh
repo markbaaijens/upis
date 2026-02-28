@@ -143,12 +143,15 @@ gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 3282
 
 # Background
-wget https://raw.githubusercontent.com/markbaaijens/upis/master/backgrounds/ubuntu_dark.jpg -O /tmp/ubuntu_dark.jpg
-sudo mv /tmp/ubuntu_dark.jpg /usr/share/backgrounds/
+wget https://raw.githubusercontent.com/markbaaijens/upis/master/backgrounds/ubuntu-dark.jpg -O /tmp/ubuntu-dark.jpg
+sudo mv /tmp/ubuntu-dark.jpg /usr/share/backgrounds/
+
+wget https://raw.githubusercontent.com/markbaaijens/upis/master/backgrounds/ubuntu-blue.jpg -O /tmp/ubuntu-blue.jpg
+sudo mv /tmp/ubuntu-blue.jpg /usr/share/backgrounds/
 
 if [ "$install_background" = "y" ]; then
-    gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/ubuntu_dark.jpg'
-    gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/ubuntu_dark.jpg'
+    gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/ubuntu-blue.jpg'
+    gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/ubuntu-blue.jpg'
 fi
 
 # Nautilus
