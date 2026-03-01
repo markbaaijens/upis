@@ -312,6 +312,7 @@ echo "  - removed Rhythmbox (music is better played with Celluloid)"
 echo "- optional"
 if [ "$install_menu" = "y" ]; then echo "  - menu reset"; fi
 if [ "$install_background" = "y" ]; then echo "  - background replaced"; fi
+if [ "$install_telegram" = "y" ]; then echo "  - installed: Telegram"; fi
 if [ "$install_code" = "y" ]; then echo "  - installed: Visual Studio Code"; fi
 if [ "$install_audio" = "y" ]; then echo "  - installed: Audio-suite"; fi
 if [ "$install_graphic" = "y" ]; then echo "  - installed: Graphics-suite"; fi
