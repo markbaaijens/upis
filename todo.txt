@@ -1,6 +1,7 @@
 # Must have
 - skip if package is already installed
-  - show message
+  - show message in dialog (if applicable)
+  - skip when actual installing (apt or snap)
 - zram for non arm-architectures + memory < 4 GB
 - implement cleansnaps
 - arm
