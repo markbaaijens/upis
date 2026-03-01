@@ -35,7 +35,10 @@ Research
   * snap from flacon-tabetai does not start
 * VS Code on arm
 - VS Code not installed on ARM
-  wget https://vscode.download.prss.microsoft.com/dbazure/download/stable/e8653663e8840adaf45af01eab5c627a5af81807/code_1.95.2-1730980375_arm64.deb
-  sudo dpkg -i code_1.95.2-1730980375_arm64.deb
+  - separate deb:
+      wget https://vscode.download.prss.microsoft.com/dbazure/download/stable/e8653663e8840adaf45af01eab5c627a5af81807/code_1.95.2-1730980375_arm64.deb
+      sudo dpkg -i code_1.95.2-1730980375_arm64.deb
+  - PPA
+      https://code.visualstudio.com/docs/setup/linux  
 
 

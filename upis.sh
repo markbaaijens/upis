@@ -55,6 +55,11 @@ fi
 #
 # User dialog
 #
+if [ "$architecture" = "arm" ];then
+    echo "Notes..."
+    echo "- Visual Studio Code is not available on ARM"    
+fi
+
 echo "Select options..."
 
 read -r -p "- reset menu? [y/N] " install_menu
