@@ -1,8 +1,31 @@
+# Must have
+- skip if package is already installed
+  - show message
 - zram for non arm-architectures + memory < 4 GB
-- block install some packages when on arm
-  - code
-  - ...
+- implement cleansnaps
+- arm
+  - flacon on arm
+    - snap from flacon-tabetai does not start
 
+# Should have
+- Firefox: install uBlock Origin-addon
+  - is a post-install message right now
+      https://askubuntu.com/questions/73474/how-to-install-firefox-addon-from-command-line-in-scripts
+      * download latest version:
+        wget https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi -O ublock-latest.xpi
+
+        unzip ublock-latest.xpi
+        rm ublock-latest.xpi
+        cat install.rdf
+        => not found! Documentation has been aged...
+- VS Code not installed on ARM
+  - separate deb:
+      wget https://vscode.download.prss.microsoft.com/dbazure/download/stable/e8653663e8840adaf45af01eab5c627a5af81807/code_1.95.2-1730980375_arm64.deb
+      sudo dpkg -i code_1.95.2-1730980375_arm64.deb
+    - PPA
+        https://code.visualstudio.com/docs/setup/linux  
+
+# Could have
 - LibreOffice
   - Beeld, Gebruikersinterface: Tabbladen
   - Beeld, Menubalk: aan
@@ -15,30 +38,6 @@
 
 - removable media => link audio-cd to sound-juicer
 
-* extensions on GNOME
+- extensions on GNOME
   * specific extensions:
     * weather o'clock
-* implement cleansnaps
-* Firefox: install uBlock Origin-addon
-  https://askubuntu.com/questions/73474/how-to-install-firefox-addon-from-command-line-in-scripts
-  * download latest version:
-    wget https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi -O ublock-latest.xpi
-
-    unzip ublock-latest.xpi
-    rm ublock-latest.xpi
-    cat install.rdf
-    => not found! Documentation has been aged...
-
-Research
-* flacon
-  * on arm
-  * snap from flacon-tabetai does not start
-* VS Code on arm
-- VS Code not installed on ARM
-  - separate deb:
-      wget https://vscode.download.prss.microsoft.com/dbazure/download/stable/e8653663e8840adaf45af01eab5c627a5af81807/code_1.95.2-1730980375_arm64.deb
-      sudo dpkg -i code_1.95.2-1730980375_arm64.deb
-  - PPA
-      https://code.visualstudio.com/docs/setup/linux  
-
-
