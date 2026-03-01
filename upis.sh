@@ -299,10 +299,14 @@ if [ "$install_audio" = "y" ]; then
     apt_install "quodlibet"
     apt_install "sonic-visualiser"
 
-    # Snap from flacon-tabetai does not start
-    if [ "$(apt_is_installed flacon)" = "" ]; then
-        sudo add-apt-repository ppa:flacon -y
-        apt_install "flacon"
+    # Snap from flacon-tabetai does not start, so not-useable
+    if [ "$architecture" != "arm" ]; then
+        if [ "$(apt_is_installed flacon)" = "" ]; then
+            sudo add-apt-repository ppa:flacon -y
+            apt_install "flacon"
+        fi
+    else
+        info_flacon_arm=1
     fi
 
     snap_install "spek"
@@ -386,6 +390,8 @@ if [ "$install_rpimager" = "y" ]; then echo "  - installed: Raspberry Pi Imager"
 if [ "$install_chromium" = "y" ]; then echo "  - installed: Chromium Browser"; fi
 
 if [ $warning_folder ]; then echo "Warning: Folder ~/Sjablonen is not present, installation language is not Dutch?"; fi
+if [ $info_flacon_arm ]; then echo "Info: Flacon is not available on ARM "; fi
+
 echo "Things to do after install:"
 echo "- install ad-blocker uBlock Origin-plugin in Firefox"
 
