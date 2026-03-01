@@ -27,7 +27,7 @@ fi
 desktop=$(echo $DESKTOP_SESSION | tr '[:upper:]' '[:lower:]')
 
 architecture="x86"
-if [ $(uname -a | grep aarch64) ]; then
+if [ "$(uname -a | grep aarch64)" != "" ]; then
     architecture="arm"
 fi
 
