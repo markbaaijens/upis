@@ -346,7 +346,8 @@ fi
 
 sudo apt -qq install $(check-language-support -l nl) -y
 sudo apt -qq install $(check-language-support -l uk) -y
-sudo apt dist-upgrade -y
+
+sudo apt -qq dist-upgrade -y
 sudo snap refresh
 
 sudo apt -qq autoremove -y
@@ -377,7 +378,7 @@ if [ "$install_rpimager" = "y" ]; then echo "  - installed: Raspberry Pi Imager"
 if [ "$install_chromium" = "y" ]; then echo "  - installed: Chromium Browser"; fi
 
 if [ $warning_folder ]; then echo "Warning: Folder ~/Sjablonen is not present, installation language is not Dutch?"; fi
-echo "Post-install"
+echo "Things to do after install:"
 echo "- install ad-blocker uBlock Origin-plugin in Firefox"
 
 
