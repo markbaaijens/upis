@@ -1,9 +1,8 @@
 # Must have
 - implement cleansnaps
-- arm
-  - flacon on arm
-    - snap from flacon-tabetai does not start
-    - use the snap for x86?
+- flacon on arm
+  - snap from flacon-tabetai does not start, on arm or x86
+  - ppa is only for x86
 - testing 
   - test zram on low-memory systems (< 4 GB)
   - test complete suite on arm
