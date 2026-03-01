@@ -17,6 +17,29 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+apt_is_installed () {
+    if [ "$(dpkg -l | grep $1 | grep ii)" != "" ]; then
+        echo "$1 is installed"
+    fi
+}
+
+snap_is_installed () {
+    if [ "$(snap list | grep $1)" != "" ]; then
+        echo "$1 is installed"
+    fi
+}
+
+apt_install () {
+    if [ "$(apt_is_installed $1)" = "" ]; then
+        sudo apt -qq install $1 -y
+    fi
+}
+
+snap_install () {
+    if [ "$(snap_is_installed $1)" = "" ]; then
+        sudo snap install $1
+    fi
+}
 
 # Script must NOT be executed as root b/c otherwise some user settings end up in the root domain
 if [ -n "$(whoami | grep root)" ]; then
@@ -68,33 +91,57 @@ install_menu=$(echo $install_menu | tr '[:upper:]' '[:lower:]')
 read -r -p "- replace background? [y/N] " install_background
 install_background=$(echo $install_background | tr '[:upper:]' '[:lower:]')
 
-read -r -p "- install: Telegram? [y/N] " install_telegram
-install_telegram=$(echo $install_telegram | tr '[:upper:]' '[:lower:]')
-
-if [ "$architecture" = "x86" ];then
-    read -r -p "- install: Visual Studio Code? [y/N] " install_code
-    install_code=$(echo $install_code | tr '[:upper:]' '[:lower:]')
-else
-    echo "- (skipped) install: Visual Studio Code => not available on arm"
-fi
-
 read -r -p "- install: Audio-suite (PuddleTag, SoundJuicer, Audacity, QuodLibet, SoundVisualiser, Flacon and Spek)? [y/N] " install_audio
 install_audio=$(echo $install_audio | tr '[:upper:]' '[:lower:]')
 
 read -r -p "- install: Graphic-suite (GIMP, Pinta, Inkscape)? [y/N] " install_graphic
 install_graphic=$(echo $install_graphic | tr '[:upper:]' '[:lower:]')
 
-read -r -p "- install: SyncThing? [y/N] " install_sync
-install_sync=$(echo $install_sync | tr '[:upper:]' '[:lower:]')
+if [ "$(snap_is_installed 'telegram-desktop')" = "" ]; then 
+    read -r -p "- install: Telegram? [y/N] " install_telegram
+    install_telegram=$(echo $install_telegram | tr '[:upper:]' '[:lower:]')
+else
+    echo "- (skipped) install: Telegram => already installed"
+fi
 
-read -r -p "- install: Zim desktop-wiki? [y/N] " install_zim
-install_zim=$(echo $install_zim | tr '[:upper:]' '[:lower:]')
+if [ "$architecture" = "x86" ];then
+    if [ "$(snap_is_installed 'chromium')" = "" ]; then 
+        read -r -p "- install: Visual Studio Code? [y/N] " install_code
+        install_code=$(echo $install_code | tr '[:upper:]' '[:lower:]')
+    else
+        echo "- (skipped) install: Visual Studio Code => already installed"
+    fi
+else
+    echo "- (skipped) install: Telegram => not available on arm"    
+fi
 
-read -r -p "- install: Raspberry Pi-imager? [y/N] " install_rpimager
-install_rpimager=$(echo $install_rpimager | tr '[:upper:]' '[:lower:]')
+if [ "$(apt_is_installed syncthing)" = "" ]; then
+    read -r -p "- install: SyncThing? [y/N] " install_sync
+    install_sync=$(echo $install_sync | tr '[:upper:]' '[:lower:]')
+else
+    echo "- (skipped) install: SyncThing => already installed"
+fi
 
-read -r -p "- install: Chromium-browser? [y/N] " install_chromium
-install_chromium=$(echo $install_chromium | tr '[:upper:]' '[:lower:]')
+if [ "$(apt_is_installed zim)" = "" ]; then
+    read -r -p "- install: Zim desktop-wiki? [y/N] " install_zim
+    install_zim=$(echo $install_zim | tr '[:upper:]' '[:lower:]')
+else
+    echo "- (skipped) install: Zim desktop-wiki => already installed"
+fi
+
+if [ "$(apt_is_installed rpi-imager)" = "" ]; then
+    read -r -p "- install: Raspberry Pi-imager? [y/N] " install_rpimager
+    install_rpimager=$(echo $install_rpimager | tr '[:upper:]' '[:lower:]')
+else
+    echo "- (skipped) install: Raspberry Pi-imager => already installed"
+fi
+
+if [ "$(snap_is_installed chromium)" = "" ]; then 
+    read -r -p "- install: Chromium-browser? [y/N] " install_chromium
+    install_chromium=$(echo $install_chromium | tr '[:upper:]' '[:lower:]')
+else
+    echo "- (skipped) install: Chromium-browser => already installed"
+fi
 
 echo "This script is ready to run, the following will be done:"
 echo "- standard"
@@ -181,6 +228,7 @@ gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 32
 
 # Background
 upis_url="https://raw.githubusercontent.com/markbaaijens/upis/master"
+
 wget $upis_url/backgrounds/ubuntu-dark.jpg -nv -O /tmp/ubuntu-dark.jpg
 sudo mv /tmp/ubuntu-dark.jpg /usr/share/backgrounds/
 
@@ -214,17 +262,22 @@ echo "Updating packages..."
 sudo apt -qq update -y  
 
 # Several basic packages
-sudo apt -qq install dconf-editor htop tree bwm-ng nmap -y
+apt_install "dconf-editor"
+apt_install "htop"
+apt_install "tree"
+apt_install "htop"
+apt_install "bwm-ng"
+apt_install "nmap"
 
 # Note. Package gnome-shell-extensions does slightly the same (showing gnome-extensions), 
 # though you cannot new extensions through browsing
-sudo apt -qq install gnome-shell-extension-manager -y
+apt_install "gnome-shell-extension-manager"
 
 # Replace Video's (Totem) by Celluloid
 if [ "$(dpkg --get-selections | grep "\btotem\b")" ]; then
     sudo apt purge totem -y
 fi
-sudo apt -qq install celluloid -y
+apt_install "celluloid"
 
 # Remove rhythmbox; music is better played with celluloid
 if [ "$(dpkg --get-selections | grep "\brhythmbox\b")" ]; then
@@ -232,31 +285,33 @@ if [ "$(dpkg --get-selections | grep "\brhythmbox\b")" ]; then
 fi
 
 if [ "$install_audio" = "y" ]; then
-    sudo apt -qq install puddletag -y
-    sudo apt -qq install sound-juicer -y
-    sudo apt -qq install audacity -y
-    sudo apt -qq install quodlibet -y
-    sudo apt -qq install sonic-visualiser -y
+    apt_install "puddletag"
+    apt_install "sound-juicer"
+    apt_install "audacity"
+    apt_install "quodlibet"
+    apt_install "sonic-visualiser"
 
     # Snap from flacon-tabetai does not start
-    sudo add-apt-repository ppa:flacon -y
-    sudo apt -qq install flacon -y
+    if [ "$(apt_is_installed flacon)" = "" ]; then
+        sudo add-apt-repository ppa:flacon -y
+        apt_install "flacon"
+    fi
 
-    sudo snap install spek
+    snap_install "spek"
 fi
 
 if [ "$install_graphic" = "y" ]; then
-    sudo snap install pinta
-    sudo snap install gimp
-    sudo snap install inkscape
+    snap_install "pinta"
+    snap_install "gimp"
+    snap_install "inkscape"
 fi
 
 if [ "$install_telegram" = "y" ]; then
-    sudo snap install telegram-desktop
+    snap_install "telegram-desktop"
 fi
 
 if [ "$install_code" = "y" ]; then
-    sudo snap install --classic code
+    snap_install "code"
 fi
 
 if [ "$install_sync" = "y" ]; then
@@ -270,15 +325,15 @@ fi
 
 if [ "$install_chromium" = "y" ]; then
     # Use chromium instead of chrome b/c chromium is available on arm, and chrome is not
-    sudo snap install chromium-browser
+    snap_install "chromium"
 fi
 
 if [ "$install_zim" = "y" ]; then
-    sudo apt -qq install zim -y
+    apt_install "zim"
 fi
 
 if [ "$install_rpimager" = "y" ]; then
-     sudo apt -qq install rpi-imager -y
+     apt_install "rpi-imager"
 fi
 
 if [ "$install_menu" = "y" ]; then
