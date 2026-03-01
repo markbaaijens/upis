@@ -1,12 +1,12 @@
 # Must have
-- skip if package is already installed
-  - show message in dialog (if applicable)
-  - skip when actual installing (apt or snap)
-- zram for non arm-architectures + memory < 4 GB
 - implement cleansnaps
 - arm
   - flacon on arm
     - snap from flacon-tabetai does not start
+    - use the snap for x86?
+- testing 
+  - test zram on low-memory systems (< 4 GB)
+  - test complete suite on arm
 
 # Should have
 - Firefox: install uBlock Origin-addon
@@ -36,9 +36,7 @@
     - Documenttype: Werkbladen (Calc)): Altijd opslaan als: Excel 2007-365 (*.xlsx)
     - Documenttype: Presentatie (Impress)): Altijd opslaan als: PowerPoint 2007-365 (*.xlsx)
     - Bij niet opslaan ODF- of standaardindeling waarschuwen: uit
-
 - removable media => link audio-cd to sound-juicer
-
 - extensions on GNOME
   * specific extensions:
     * weather o'clock

@@ -78,9 +78,16 @@ fi
 #
 # User dialog
 #
-if [ "$architecture" = "arm" ];then
+if [ "$architecture" = "arm" ] || [ $mem_low = 1 ]; then
     echo "Notes..."
-    echo "- Visual Studio Code is not available on ARM"    
+
+    if [ "$architecture" = "arm" ];then
+        echo "- Visual Studio Code is not available on ARM"    
+    fi
+
+    if [ $mem_low = 1 ]  && [ "$architecture" = "x86" ];then
+        echo "- on low memory x86-systems (< 4 GB), zram (compressed memory) will be installed"
+    fi    
 fi
 
 echo "Select options..."
@@ -179,15 +186,16 @@ echo "Processing..."
 # De-activate error-system
 sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 
-# Commented out b/c zram-config is not working correctly on arm64
-# Use zram = compressed memory (advantage when in low memory)
-#sudo apt -qq install zram-config -y
-#sudo systemctl enable zram-config
-#sudo systemctl start zram-config
+if [ $mem_low = 1 ]  && [ "$architecture" = "x86" ];then
+    apt_install zram-config
+    sudo systemctl enable zram-config
+    sudo systemctl start zram-config
 
-# Increase swappiness to make better use of zram
-#sudo sed -i '/vm.swappiness=/d' /etc/sysctl.conf  # Remove the line first if present
-#sudo /bin/sh -c 'echo "vm.swappiness=150" >> /etc/sysctl.conf'
+    # Increase swappiness to make better use of zram
+    #sudo sed -i '/vm.swappiness=/d' /etc/sysctl.conf  # Remove the line first if present
+    # 150 seems absurdly high, max = 100; default in Ubuntu = 60
+    #sudo /bin/sh -c 'echo "vm.swappiness=150" >> /etc/sysctl.conf'
+fi
 
 #
 # Personal settings
