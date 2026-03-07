@@ -6,6 +6,9 @@
 - testing 
   - test zram on low-memory systems (< 4 GB)
   - test complete suite on arm
+  - test Syncthing 
+    - on x86
+    - on arm
 
 # Should have
 - Firefox: install uBlock Origin-addon
