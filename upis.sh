@@ -243,6 +243,9 @@ sudo mv /tmp/ubuntu-dark.jpg /usr/share/backgrounds/
 wget $upis_url/backgrounds/ubuntu-blue.jpg -nv -O /tmp/ubuntu-blue.jpg
 sudo mv /tmp/ubuntu-blue.jpg /usr/share/backgrounds/
 
+wget $upis_url/backgrounds/ubuntu-orion.jpg -nv -O /tmp/ubuntu-orion.jpg
+sudo mv /tmp/ubuntu-orion.jpg /usr/share/backgrounds/
+
 wget $upis_url/backgrounds/custom-wallpapers.xml -nv -O /tmp/custom-wallpapers.xml
 sudo mv /tmp/custom-wallpapers.xml /usr/share/gnome-background-properties
 
