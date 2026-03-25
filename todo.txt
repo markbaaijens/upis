@@ -1,6 +1,10 @@
 # Must have
-- rename backgrounds from ubuntu-xxx.jpg to ubuntu-logo-xxx.jpg so they are grouped
-  - cleanup already installed backgrounds
+- set nautilus icon-info to size
+  org.gnome.nautilus.icon-view captions ['size', 'none', 'none']  
+- install gnome-extension 'Weather or not'
+  - install gnome-weather
+    - sudo apt install gnome-weather
+    - binds automatically to weather-extension
 - implement cleansnaps
 - flacon on arm
   - snap from flacon-tabetai does not start, on arm or x86

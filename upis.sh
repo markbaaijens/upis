@@ -237,21 +237,21 @@ gsettings set org.gnome.settings-daemon.plugins.color night-light-temperature 32
 # Background
 upis_url="https://raw.githubusercontent.com/markbaaijens/upis/master"
 
-wget $upis_url/backgrounds/ubuntu-dark.jpg -nv -O /tmp/ubuntu-dark.jpg
-sudo mv /tmp/ubuntu-dark.jpg /usr/share/backgrounds/
+wget $upis_url/backgrounds/ubuntu-logo-dark.jpg -nv -O /tmp/ubuntu-logo-dark.jpg
+sudo mv /tmp/ubuntu-logo-dark.jpg /usr/share/backgrounds/
 
-wget $upis_url/backgrounds/ubuntu-blue.jpg -nv -O /tmp/ubuntu-blue.jpg
-sudo mv /tmp/ubuntu-blue.jpg /usr/share/backgrounds/
+wget $upis_url/backgrounds/ubuntu-logo-blue.jpg -nv -O /tmp/ubuntu-logo-blue.jpg
+sudo mv /tmp/ubuntu-logo-blue.jpg /usr/share/backgrounds/
 
-wget $upis_url/backgrounds/ubuntu-orion.jpg -nv -O /tmp/ubuntu-orion.jpg
-sudo mv -f /tmp/ubuntu-orion.jpg /usr/share/backgrounds/
+wget $upis_url/backgrounds/ubuntu-logo-orion.jpg -nv -O /tmp/ubuntu-logo-orion.jpg
+sudo mv -f /tmp/ubuntu-logo-orion.jpg /usr/share/backgrounds/
 
 wget $upis_url/backgrounds/custom-wallpapers.xml -nv -O /tmp/custom-wallpapers.xml
 sudo mv /tmp/custom-wallpapers.xml /usr/share/gnome-background-properties
 
 if [ "$install_background" = "y" ]; then
-    gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/ubuntu-blue.jpg'
-    gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/ubuntu-blue.jpg'
+    gsettings set org.gnome.desktop.background picture-uri 'file:///usr/share/backgrounds/ubuntu-logo-blue.jpg'
+    gsettings set org.gnome.desktop.background picture-uri-dark 'file:///usr/share/backgrounds/ubuntu-logo-blue.jpg'
 fi
 
 # Nautilus
